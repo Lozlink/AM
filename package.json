@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "dotenvx run -- next dev --turbopack",
-    "build": "dotenvx run -- next build",
-    "start": "dotenvx run -- next start",
+    "dev": "dotenvx run -- next dev",
+    "build": "dotenvx run -f .env.production -- next build",
+    "start": "dotenvx run -f .env.production -- next start",
     "lint": "dotenvx run -- next lint",
     "seed": "node src/scripts/seedCars.js"
   },

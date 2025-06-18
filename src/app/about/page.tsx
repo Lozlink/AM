@@ -2,6 +2,7 @@
 
 import Header from '@/components/Header'
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 
 export default function AboutPage() {
   return (
@@ -247,18 +248,18 @@ export default function AboutPage() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <a
+            <Link
               href="/vehicles"
               className="bg-white text-gray-900 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
             >
               Browse Vehicles
-            </a>
-            <a
+            </Link>
+            <Link
               href="/contact"
               className="border-2 border-blue-700 text-blue-700 px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 hover:text-white transition-colors"
             >
               Get Started
-            </a>
+            </Link>
           </motion.div>
         </div>
       </section>

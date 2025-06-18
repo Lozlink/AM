@@ -4,22 +4,50 @@
 - Vercel account
 - GitHub repository with your code
 - Supabase project set up
+- dotenvx CLI installed
 
 ## Environment Variables Setup
 
-### 1. Create Environment Variables in Vercel
-In your Vercel dashboard, go to your project settings and add these environment variables:
+### 1. Create Production Environment File
+Create a `.env.production` file with your production environment variables:
 
+```bash
+# Create production environment file
+dotenvx create .env.production
+```
+
+Add your production environment variables:
 ```
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
-### 2. Get Supabase Credentials
+### 2. Encrypt Production Environment File
+```bash
+dotenvx encrypt .env.production
+```
+
+### 3. Vercel Environment Variables
+In your Vercel dashboard, add these environment variables:
+```
+DOTENVX_PASSWORD=your_dotenvx_password
+DOTENVX_ENV_FILE=.env.production.encrypted
+```
+
+### 4. Get Supabase Credentials
 1. Go to your Supabase project dashboard
 2. Navigate to Settings > API
 3. Copy the "Project URL" and "anon public" key
-4. Add these to Vercel environment variables
+4. Add these to your `.env.production` file
+
+### 5. Local Development
+For local development, create a `.env.local` file with:
+```
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+**Note:** The build process uses `dotenvx run -f .env.production` for production deployments.
 
 ## Database Setup
 
@@ -103,12 +131,18 @@ npm run seed
 
 ### 2. Build Settings
 - Framework Preset: Next.js
-- Build Command: `npm run build`
+- Build Command: `npm run build` (uses dotenvx run -f .env.production)
 - Output Directory: `.next`
 - Install Command: `npm install`
 
 ### 3. Environment Variables
-Add the environment variables mentioned above in the Vercel dashboard.
+Add these environment variables in the Vercel dashboard:
+```
+DOTENVX_PASSWORD=your_dotenvx_password
+DOTENVX_ENV_FILE=.env.production.encrypted
+```
+
+**Note:** The actual environment variables (NEXT_PUBLIC_SUPABASE_URL, etc.) should be in your encrypted `.env.production` file, not in Vercel's environment variables.
 
 ### 4. Deploy
 Click "Deploy" and wait for the build to complete.

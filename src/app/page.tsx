@@ -1,5 +1,6 @@
 import Header from '@/components/Header'
 import Hero from '@/components/Hero'
+import Link from 'next/link'
 
 export default function Home() {
   return (
@@ -110,18 +111,18 @@ export default function Home() {
             Experience trust, excellence, and satisfaction. Complete the form today to find your next car!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
+            <Link
               href="/vehicles"
               className="bg-white text-gray-900 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors"
             >
               Browse Vehicles
-            </a>
-            <a
+            </Link>
+            <Link
               href="/contact"
               className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-gray-900 transition-colors"
             >
               Get Quote
-            </a>
+            </Link>
           </div>
         </div>
       </section>
