@@ -24,19 +24,23 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">
-            <Link href="/" className="text-gray-700 hover:text-blue-600 transition-colors">
+            <Link href="/" className="text-gray-700 hover:text-blue-700 transition-colors">
               Home
             </Link>
-            <Link href="/vehicles" className="text-gray-700 hover:text-blue-600 transition-colors">
+            <Link href="/vehicles" className="text-gray-700 hover:text-blue-700 transition-colors">
               Vehicles
             </Link>
-            <Link href="/about" className="text-gray-700 hover:text-blue-600 transition-colors">
+            <Link href="/valuation" className="text-gray-700 hover:text-blue-700 transition-colors">
+              Car Valuation
+            </Link>
+            <Link href="/about" className="text-gray-700 hover:text-blue-700 transition-colors">
               About
             </Link>
-            <Link href="/contact" className="text-gray-700 hover:text-blue-600 transition-colors">
+            <Link href="/contact" className="text-gray-700 hover:text-blue-700 transition-colors">
               Contact
             </Link>
           </nav>
+
 
           {/* CTA Button */}
           <div className="hidden md:block">
@@ -64,51 +68,34 @@ export default function Header() {
         </div>
 
         {/* Mobile Navigation */}
+        {/* Mobile Navigation */}
         {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden"
-          >
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t">
-              <Link
-                href="/"
-                className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Home
-              </Link>
-              <Link
-                href="/vehicles"
-                className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Vehicles
-              </Link>
-              <Link
-                href="/about"
-                className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                About
-              </Link>
-              <Link
-                href="/contact"
-                className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Contact
-              </Link>
-              <Link
-                href="/contact"
-                className="block px-3 py-2 bg-blue-600 text-white rounded-lg mx-3 mt-4 text-center"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Get Quote
-              </Link>
-            </div>
-          </motion.div>
+            <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="md:hidden"
+            >
+              <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t">
+                <Link href="/" className="block px-3 py-2 text-gray-700 hover:text-blue-700">
+                  Home
+                </Link>
+                <Link href="/vehicles" className="block px-3 py-2 text-gray-700 hover:text-blue-700">
+                  Vehicles
+                </Link>
+                <Link href="/valuation" className="block px-3 py-2 text-gray-700 hover:text-blue-700">
+                  Car Valuation
+                </Link>
+                <Link href="/about" className="block px-3 py-2 text-gray-700 hover:text-blue-700">
+                  About
+                </Link>
+                <Link href="/contact" className="block px-3 py-2 text-gray-700 hover:text-blue-700">
+                  Contact
+                </Link>
+              </div>
+            </motion.div>
+        )}
+
         )}
       </div>
     </header>
