@@ -84,13 +84,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         success: false,
         error: 'Invalid request data',
-        details: error.errors
-      }, { status: 400 })
+        details: error.message
+      })
     }
     
     return NextResponse.json({
       success: false,
-      error: 'Internal server error'
-    }, { status: 500 })
+      error: 'Internal server errgaor'
+    })
   }
 }
