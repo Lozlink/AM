@@ -2,6 +2,16 @@ import { supabase } from '@/lib/supabase'
 import { Car } from '@/lib/supabase'
 import Header from '@/components/Header'
 import { notFound } from 'next/navigation'
+export async function generateStaticParams() {
+  const { data: cars } = await supabase
+      .from('cars')
+      .select('id')
+      .limit(100) // Limit to prevent memory issues
+
+  return cars?.map((car) => ({
+    id: car.id.toString(),
+  })) || []
+}
 
 async function getCar(id: string): Promise<Car | null> {
   try {
@@ -22,7 +32,7 @@ async function getCar(id: string): Promise<Car | null> {
   }
 }
 
-export default async function CarDetailPage({ params }: { params:{ id: string } }) {
+export default async function CarDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const car = await getCar(id)
 
