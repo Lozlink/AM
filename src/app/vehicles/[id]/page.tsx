@@ -2,16 +2,9 @@ import { supabase } from '@/lib/supabase'
 import { Car } from '@/lib/supabase'
 import Header from '@/components/Header'
 import { notFound } from 'next/navigation'
-export async function generateStaticParams() {
-  const { data: cars } = await supabase
-      .from('cars')
-      .select('id')
-      .limit(100) // Limit to prevent memory issues
 
-  return cars?.map((car) => ({
-    id: car.id.toString(),
-  })) || []
-}
+export const dynamic = 'force-dynamic'
+
 
 async function getCar(id: string): Promise<Car | null> {
   try {
