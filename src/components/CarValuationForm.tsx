@@ -1,7 +1,6 @@
-
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -18,7 +17,7 @@ const valuationSchema = z.object({
   location: z.string().min(1, 'Please select your location'),
   contactInfo: z.object({
     name: z.string().min(1, 'Name is required'),
-    email: z.string().email('Please enter a valid email'),
+    email: z.email('Please enter a valid email'),
     phone: z.string().min(10, 'Please enter a valid phone number')
   })
 })
@@ -49,12 +48,21 @@ export default function CarValuationForm() {
     reset,
     setValue,
     watch
-  } = useForm<ValuationFormData>({
+  } = useForm({
     resolver: zodResolver(valuationSchema)
   })
 
-  const watchedMake = watch('make')
-  const watchedModel = watch('model')
+
+
+  const watchedMake = watch('make' as any)
+  const watchedModel = watch('model' as any)
+
+  useEffect(() => {
+    if (watchedMake) {
+      setValue('model', '') // Clear the model value when the make changes
+      setSelectedModel('')  // Clear the selected model if a separate state is used
+    }
+  }, [watchedMake, setValue])
 
   // Popular Australian car makes
   const popularMakes = [
@@ -120,7 +128,7 @@ export default function CarValuationForm() {
         className="bg-white p-8 rounded-xl shadow-lg border border-gray-200"
       >
         <div className="text-center">
-          <div className="text-green-600 text-6xl mb-4">✓</div>
+          <div className="text-orange-500 text-6xl mb-4">✓</div>
           <h3 className="text-2xl font-bold text-gray-900 mb-4">
             Valuation Request Submitted!
           </h3>
@@ -139,6 +147,9 @@ export default function CarValuationForm() {
       </motion.div>
     )
   }
+  // Ensure model resets when make changes
+
+
 
   return (
     <motion.div
@@ -159,16 +170,18 @@ export default function CarValuationForm() {
         {/* Vehicle Details */}
         <div className="grid md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm text-gray-700 font-medium mb-2">
               Make *
             </label>
             <select
-              {...register('make')}
-              onChange={(e) => {
-                setSelectedMake(e.target.value)
-                setValue('model', '')
-              }}
-              className={clsx(
+                {...register('make', {
+                  onChange: (e) => {
+                    setSelectedMake(e.target.value)
+                    setValue('model', '')
+                  }
+                })}
+
+                className={clsx(
                 'w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent',
                 errors.make ? 'border-red-500' : 'border-gray-300'
               )}
@@ -362,7 +375,7 @@ export default function CarValuationForm() {
             'w-full py-4 px-6 rounded-lg font-semibold text-white transition-colors',
             isSubmitting
               ? 'bg-gray-400 cursor-not-allowed'
-              : 'bg-blue-700 hover:bg-blue-800'
+              : 'bg-gray-900 hover:bg-blue-800'
           )}
         >
           {isSubmitting ? 'Submitting...' : 'Get My Vehicle Valuation'}

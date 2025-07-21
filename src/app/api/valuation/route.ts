@@ -11,12 +11,21 @@ const valuationSchema = z.object({
   location: z.string().min(1),
   contactInfo: z.object({
     name: z.string().min(1),
-    email: z.string().email(),
+    email: z.email(),
     phone: z.string().min(10)
   }),
   source: z.string().optional(),
   timestamp: z.string().optional()
 })
+
+async function sendConfirmationEmail(email: string, data: any) {
+  // In production, you would use a service like SendGrid, Mailgun, etc.
+  console.log(`Sending confirmation email to: ${email}`)
+  console.log('Valuation data:', data)
+
+  // For now, just return success - you can implement actual email sending later
+  return Promise.resolve(true)
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -58,7 +67,7 @@ export async function POST(request: NextRequest) {
     // })
     
     // Send confirmation email (would use a service like SendGrid, Mailgun, etc.)
-    // await sendConfirmationEmail(validatedData.contactInfo.email, validatedData)
+    await sendConfirmationEmail(validatedData.contactInfo.email, validatedData)
     
     // Return success response
     return NextResponse.json({

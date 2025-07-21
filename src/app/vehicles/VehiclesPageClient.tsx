@@ -207,12 +207,12 @@ export default function VehiclesPageClient({ cars }: VehiclesPageClientProps) {
             <div className="flex items-end">
               <button
                 onClick={clearFilters}
-                className="w-full px-4 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-800 transition-colors"
+                className="w-full px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-blue-800 transition-colors"
               >
                 Clear Filters
               </button>
             </div>
-          </div>
+          </div>as
         </div>
       </section>
 
@@ -247,7 +247,7 @@ export default function VehiclesPageClient({ cars }: VehiclesPageClientProps) {
               </p>
               <button
                 onClick={clearFilters}
-                className="bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-800 transition-colors"
+                className="bg-gray-900 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-800 transition-colors"
               >
                 Clear All Filters
               </button>

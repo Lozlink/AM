@@ -131,7 +131,7 @@ export default function CarCardStatic({ car }: CarCardStaticProps) {
         {/* CTA Button */}
         <Link
           href={`/vehicles/${car.id}`}
-          className="w-full bg-blue-700 text-white py-3 px-4 rounded-lg font-semibold hover:bg-blue-800 transition-colors text-center block"
+          className="w-full bg-gray-900 text-white py-3 px-4 rounded-lg font-semibold hover:bg-blue-800 transition-colors text-center block"
         >
           View Details
         </Link>
