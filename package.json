@@ -7,7 +7,7 @@
     "build": "dotenvx run -f .env.production -- next build",
     "start": "dotenvx run -f .env.production -- next start",
     "lint": "dotenvx run -- next lint",
-    "seed": "node src/scripts/seedCars.js"
+    "seed": "node src/scripts/seedCars.ts"
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^1.44.2",
