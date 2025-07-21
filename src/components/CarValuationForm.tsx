@@ -49,7 +49,8 @@ export default function CarValuationForm() {
     setValue,
     watch
   } = useForm({
-    resolver: zodResolver(valuationSchema)
+    resolver: zodResolver(valuationSchema),
+    mode: 'all'
   })
 
 
@@ -183,7 +184,7 @@ export default function CarValuationForm() {
 
                 className={clsx(
                 'w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent',
-                errors.make ? 'border-red-500' : 'border-gray-300'
+               errors.make ? 'border-red-500' : 'border-gray-300'
               )}
             >
               <option value="">Select Make</option>
@@ -320,10 +321,10 @@ export default function CarValuationForm() {
                 {...register('contactInfo.name')}
                 className={clsx(
                   'w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent',
-                  errors.contactInfo?.name ? 'border-red-500' : 'border-gray-300'
+                  errors.contactInfo ? 'border-red-500' : 'border-gray-300'
                 )}
               />
-              {errors.contactInfo?.name && <p className="mt-1 text-sm text-red-600">{errors.contactInfo.name.message}</p>}
+              {errors.contactInfo && <p className="mt-1 text-sm text-red-600">{errors.contactInfo.message}</p>}
             </div>
 
             <div>
@@ -335,10 +336,10 @@ export default function CarValuationForm() {
                 {...register('contactInfo.email')}
                 className={clsx(
                   'w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent',
-                  errors.contactInfo?.email ? 'border-red-500' : 'border-gray-300'
+                  errors.contactInfo ? 'border-red-500' : 'border-gray-300'
                 )}
               />
-              {errors.contactInfo?.email && <p className="mt-1 text-sm text-red-600">{errors.contactInfo.email.message}</p>}
+              {errors.contactInfo && <p className="mt-1 text-sm text-red-600">{errors.contactInfo.message}</p>}
             </div>
           </div>
 
@@ -352,10 +353,10 @@ export default function CarValuationForm() {
               placeholder="e.g., 0412 345 678"
               className={clsx(
                 'w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent',
-                errors.contactInfo?.phone ? 'border-red-500' : 'border-gray-300'
+                errors.contactInfo ? 'border-red-500' : 'border-gray-300'
               )}
             />
-            {errors.contactInfo?.phone && <p className="mt-1 text-sm text-red-600">{errors.contactInfo.phone.message}</p>}
+            {errors.contactInfo && <p className="mt-1 text-sm text-red-600">{errors.contactInfo.message}</p>}
           </div>
         </div>
 
