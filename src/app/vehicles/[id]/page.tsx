@@ -22,7 +22,7 @@ async function getCar(id: string): Promise<Car | null> {
   }
 }
 
-export default async function CarDetailPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function CarDetailPage({ params }: { params:{ id: string } }) {
   const { id } = await params
   const car = await getCar(id)
 
