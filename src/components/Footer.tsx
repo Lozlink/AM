@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Logo from '@/components/Logo'
 
 export default function Footer() {
   return (
@@ -7,7 +8,7 @@ export default function Footer() {
         <div className="grid md:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="md:col-span-2">
-            <h3 className="text-2xl font-bold text-orange-500 mb-4">AM Auto Agents</h3>
+            <Logo />
             <p className="text-gray-300 mb-6 max-w-md">
               Your trusted partner in finding quality used vehicles across Australia. 
               We make car buying simple, transparent, and enjoyable.

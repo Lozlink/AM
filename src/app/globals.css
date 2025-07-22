@@ -1,11 +1,22 @@
-
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --orange-accent: #f97316;
-  --orange-light: #fed7aa;
+  --background: #fefffe;
+  --foreground: #1e293b;
+
+  /* Muted colors derived from the logo */
+  --lime-muted: #a3c956;      /* Muted version of #c5e00d */
+  --emerald-muted: #7fb069;   /* Muted version of #9fd439 */
+  --teal-muted: #5a9faa;      /* Muted version of #79c964 */
+  --cyan-muted: #4a8b94;      /* Muted version of #53bd90 */
+  --blue-muted: #3d7b8a;      /* Muted version of #2db1bb */
+
+  /* Lighter variants */
+  --lime-light: #e8f4d6;
+  --emerald-light: #e1f0da;
+  --teal-light: #ddf0e1;
+  --cyan-light: #d9eff2;
+  --blue-light: #d6eef1;
 }
 
 @theme inline {
@@ -13,14 +24,26 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --color-orange-500: var(--orange-accent);
-  --color-orange-100: var(--orange-light);
+
+  /* Custom color palette */
+  --color-brand-lime: var(--lime-muted);
+  --color-brand-emerald: var(--emerald-muted);
+  --color-brand-teal: var(--teal-muted);
+  --color-brand-cyan: var(--cyan-muted);
+  --color-brand-blue: var(--blue-muted);
+
+  /* Light variants */
+  --color-brand-lime-light: var(--lime-light);
+  --color-brand-emerald-light: var(--emerald-light);
+  --color-brand-teal-light: var(--teal-light);
+  --color-brand-cyan-light: var(--cyan-light);
+  --color-brand-blue-light: var(--blue-light);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0f172a;
+    --foreground: #f1f5f9;
   }
 }
 
@@ -49,4 +72,13 @@ input::placeholder, textarea::placeholder {
 
 .dark input::placeholder, .dark textarea::placeholder {
   color: #9ca3af !important;
+}
+
+/* Custom gradient backgrounds using logo colors */
+.gradient-brand {
+  background: linear-gradient(135deg, var(--emerald-muted) 0%, var(--teal-muted) 50%, var(--blue-muted) 100%);
+}
+
+.gradient-brand-light {
+  background: linear-gradient(135deg, var(--emerald-light) 0%, var(--teal-light) 50%, var(--blue-light) 100%);
 }
