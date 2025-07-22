@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="grid md:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="md:col-span-2">
-            <h3 className="text-2xl font-bold text-blue-400 mb-4">AM Auto Agents</h3>
+            <h3 className="text-2xl font-bold text-orange-500 mb-4">AM Auto Agents</h3>
             <p className="text-gray-300 mb-6 max-w-md">
               Your trusted partner in finding quality used vehicles across Australia. 
               We make car buying simple, transparent, and enjoyable.
@@ -64,17 +64,6 @@ export default function Footer() {
         <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <div className="text-gray-400 text-sm mb-4 md:mb-0">
             © 2023 - 2025 AM Auto Agents. All rights reserved.
-          </div>
-          <div className="flex space-x-6 text-sm">
-            <Link href="/privacy" className="text-gray-400 hover:text-blue-400 transition-colors">
-              Privacy Policy
-            </Link>
-            <Link href="/terms" className="text-gray-400 hover:text-blue-400 transition-colors">
-              Terms of Service
-            </Link>
-            <Link href="/warranty" className="text-gray-400 hover:text-blue-400 transition-colors">
-              Warranty
-            </Link>
           </div>
         </div>
       </div>

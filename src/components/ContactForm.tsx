@@ -1,189 +1,117 @@
 'use client'
 
-import Header from '@/components/Header'
-import ContactForm from '@/components/ContactForm'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 
-export default function ContactPage() {
+export default function ContactForm() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: ''
+  })
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    // Add your form submission logic here
+    console.log('Form submitted:', formData)
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    })
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-      
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Get In Touch
-            </h1>
-            <p className="text-xl text-gray-200 max-w-2xl mx-auto">
-              Ready to find your dream car? Contact us today and let us help you 
-              find the perfect vehicle that matches your needs and budget.
-            </p>
+      <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+          className="bg-white rounded-xl p-8 shadow-lg border border-gray-200"
+      >
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">
+          Send us a message
+        </h2>
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+              Full Name *
+            </label>
+            <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                placeholder="Your full name"
+            />
           </div>
-        </div>
-      </section>
 
-      {/* Contact Content */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12">
-            {/* Contact Form */}
-            <div>
-              <ContactForm />
-            </div>
-
-            {/* Contact Information */}
-            <div className="space-y-8">
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8 }}
-              >
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">
-                  Contact Information
-                </h2>
-                
-                <div className="space-y-6">
-                  <div className="flex items-start space-x-4">
-                    <div className="text-2xl">📞</div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900">Phone</h3>
-                      <p className="text-gray-600">0492 858 699</p>
-                      <p className="text-sm text-gray-500">Monday – Sunday: 8am to 9pm</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start space-x-4">
-                    <div className="text-2xl">📧</div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900">Email</h3>
-                      <p className="text-gray-600">info@amautoagents.com</p>
-                      <p className="text-sm text-gray-500">We&apos;ll respond within 24 hours</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start space-x-4">
-                    <div className="text-2xl">🌏</div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900">Service Area</h3>
-                      <p className="text-gray-600">We operate across all of Australia</p>
-                      <p className="text-sm text-gray-500">Nationwide vehicle sourcing</p>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="bg-gray-100 rounded-xl p-8 border border-gray-300"
-              >
-                <h3 className="text-xl font-bold text-gray-900 mb-4">
-                  Why Choose AM Auto Agents?
-                </h3>
-                <ul className="space-y-3 text-gray-700">
-                  <li className="flex items-start space-x-3">
-                    <span className="text-green-500 mt-1">✓</span>
-                    <span>Trusted nationwide sourcing expertise</span>
-                  </li>
-                  <li className="flex items-start space-x-3">
-                    <span className="text-green-500 mt-1">✓</span>
-                    <span>Personalized service tailored to your needs</span>
-                  </li>
-                  <li className="flex items-start space-x-3">
-                    <span className="text-green-500 mt-1">✓</span>
-                    <span>Quality vehicles with full disclosure</span>
-                  </li>
-                  <li className="flex items-start space-x-3">
-                    <span className="text-green-500 mt-1">✓</span>
-                    <span>Hassle-free car buying experience</span>
-                  </li>
-                  <li className="flex items-start space-x-3">
-                    <span className="text-green-500 mt-1">✓</span>
-                    <span>Extended business hours for your convenience</span>
-                  </li>
-                </ul>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-                className="bg-gray-100 rounded-xl p-8 border border-gray-300"
-              >
-                <h3 className="text-xl font-bold text-gray-900 mb-4">
-                  Quick Response Guarantee
-                </h3>
-                <p className="text-gray-700 mb-4">
-                  We understand that finding the right car is time-sensitive. That&apos;s why we guarantee:
-                </p>
-                <div className="space-y-2 text-sm text-gray-600">
-                  <div>• Response within 2 hours during business hours</div>
-                  <div>• Same-day vehicle sourcing for urgent requests</div>
-                  <div>• 24/7 support for existing customers</div>
-                </div>
-              </motion.div>
-            </div>
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              Email Address *
+            </label>
+            <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                placeholder="your.email@example.com"
+            />
           </div>
-        </div>
-      </section>
 
-      {/* FAQ Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-12"
+          <div>
+            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+              Phone Number
+            </label>
+            <input
+                type="tel"
+                id="phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                placeholder="0400 000 000"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+              Message *
+            </label>
+            <textarea
+                id="message"
+                name="message"
+                required
+                rows={5}
+                value={formData.message}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-vertical"
+                placeholder="Tell us about your dream car or any questions you have..."
+            />
+          </div>
+
+          <motion.button
+              type="submit"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
           >
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-xl text-gray-600">
-              Get answers to common questions about our services
-            </p>
-          </motion.div>
+            Send Message
+          </motion.button>
+        </form>
 
-          <div className="space-y-8">
-            {[
-              {
-                question: "How does your vehicle sourcing process work?",
-                answer: "We start by understanding your specific requirements, budget, and preferences. Our nationwide network then searches for vehicles that match your criteria, ensuring you get the best possible deal."
-              },
-              {
-                question: "Do you offer financing options?",
-                answer: "While we don't provide financing directly, we work with trusted finance brokers and can connect you with suitable financing options for your vehicle purchase."
-              },
-              {
-                question: "What areas do you service?",
-                answer: "We operate across all of Australia, providing nationwide vehicle sourcing services. No matter where you are, we can help you find your dream car."
-              },
-              {
-                question: "How do you ensure vehicle quality?",
-                answer: "All vehicles in our inventory undergo thorough inspections. We provide detailed condition reports and full disclosure of any issues, ensuring transparency in every transaction."
-              }
-            ].map((faq, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-                className="bg-gray-100 rounded-xl p-6 border border-gray-300"
-              >
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                  {faq.question}
-                </h3>
-                <p className="text-gray-700">
-                  {faq.answer}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-    </div>
+        <p className="text-sm text-gray-500 mt-4">
+          We'll get back to you within 24 hours during business days.
+        </p>
+      </motion.div>
   )
 }
