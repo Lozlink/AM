@@ -10,6 +10,9 @@ interface VehiclesPageClientProps {
 }
 
 export default function VehiclesPageClient({ cars }: VehiclesPageClientProps) {
+  console.log('Cars received:', cars)
+  console.log('Cars length:', cars?.length)
+
   const [filteredCars, setFilteredCars] = useState<Car[]>(cars)
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedMake, setSelectedMake] = useState('')

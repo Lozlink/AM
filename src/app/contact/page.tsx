@@ -50,7 +50,6 @@ export default function ContactPage() {
                     <div>
                       <h3 className="font-semibold text-gray-900">Phone</h3>
                       <p className="text-gray-600">0492 858 699</p>
-                      <p className="text-sm text-gray-500">Monday – Sunday: 8am to 9pm</p>
                     </div>
                   </div>
 
@@ -69,6 +68,15 @@ export default function ContactPage() {
                       <h3 className="font-semibold text-gray-900">Service Area</h3>
                       <p className="text-gray-600">We operate across all of Australia</p>
                       <p className="text-sm text-gray-500">Nationwide vehicle sourcing</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start space-x-4">
+                    <div className="text-2xl">📍</div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900">Location</h3>
+                      <p className="text-gray-600">Address to be confirmed</p>
+                      <p className="text-sm text-gray-500">Operating hours: 9am-5:30pm Mon-Sunday (Viewing via Appointments)</p>
                     </div>
                   </div>
                 </div>

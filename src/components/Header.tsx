@@ -20,13 +20,13 @@ export default function Header() {
                     animate={{ opacity: 1, x: 0 }}
                     className="block"
                 >
-                  <Logo size="lg" />
+                  <Logo size="2xl" />
                 </motion.div>
               </Link>
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex space-x-8">
+            <nav className="hidden md:flex space-x-6">
               <Link href="/" className="text-slate-300 hover:text-emerald-400 transition-colors font-medium">
                 Home
               </Link>
@@ -36,9 +36,13 @@ export default function Header() {
               <Link href="/about" className="text-slate-300 hover:text-emerald-400 transition-colors font-medium">
                 About
               </Link>
+              <Link href="/faq" className="text-slate-300 hover:text-emerald-400 transition-colors font-medium">
+                FAQ
+              </Link>
               <Link href="/contact" className="text-slate-300 hover:text-emerald-400 transition-colors font-medium">
                 Contact
               </Link>
+
             </nav>
 
             {/* CTA Button */}
@@ -84,9 +88,13 @@ export default function Header() {
                   <Link href="/about" className="block px-3 py-2 text-slate-300 hover:text-emerald-400">
                     About
                   </Link>
+                  <Link href="/faq" className="block px-3 py-2 text-slate-300 hover:text-emerald-400">
+                    FAQ
+                  </Link>
                   <Link href="/contact" className="block px-3 py-2 text-slate-300 hover:text-emerald-400">
                     Contact
                   </Link>
+
                 </div>
               </motion.div>
           )}
