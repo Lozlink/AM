@@ -35,7 +35,7 @@ export default function Hero() {
     },
     {
       id: 3,
-      image: '/image1.jpg',
+      image: '/image3.jpg',
       title: 'Expert Guidance',
       subtitle: 'Professional Service',
       description: 'Our experienced team helps you find the perfect vehicle'
