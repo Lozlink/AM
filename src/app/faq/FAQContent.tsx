@@ -3,8 +3,8 @@
 import { useState } from 'react'
 import Link from 'next/link'
 
-// FAQ Item component with accordion functionality (optimized)
-const FAQItem = ({ question, answer }: { question: string; answer: string | JSX.Element }) => {
+
+const FAQItem = ({ question, answer }: { question: string; answer: string  }) => {
     const [isOpen, setIsOpen] = useState(false)
 
     return (
