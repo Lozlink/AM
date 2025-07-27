@@ -20,7 +20,7 @@ export default function Logo({ className = '', size = 'md' }: LogoProps) {
         <div className={`flex items-center ${className}`}>
             <Image
                 src="/brandmark-design.svg"
-                alt="AM Auto Agents Logo"
+                alt="AM Auto Group Logo"
                 width={size === 'sm' ? 600 : size === 'md' ? 800 : size === 'lg' ? 1000 : size === 'xl' ? 1200 : 1400}
                 height={size === 'sm' ? 32 : size === 'md' ? 64 : size === 'lg' ? 80 : size === 'xl' ? 96 : 112}
                 className={`${sizeClasses[size]} w-auto`}

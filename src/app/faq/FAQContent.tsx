@@ -39,7 +39,7 @@ export default function FAQContent() {
             title: "Car Buying Process",
             faqs: [
                 {
-                    question: "How do I start the car buying process with AM Auto Agents?",
+                    question: "How do I start the car buying process with AM Auto Group?",
                     answer: "Starting is easy! You can browse our inventory online, visit our dealership, or contact us directly. Our team will guide you through the entire process, from selecting the right vehicle to finalizing the paperwork."
                 },
                 {

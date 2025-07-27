@@ -34,7 +34,7 @@ export default function PrivacyContent() {
                             <section>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Introduction</h2>
                                 <p className="text-gray-600 mb-4">
-                                    AM Auto Agents ("we," "our," or "us") respects your privacy and is committed to protecting your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website, use our services, or interact with us in any way.
+                                    AM Auto Group ("we," "our," or "us") respects your privacy and is committed to protecting your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website, use our services, or interact with us in any way.
                                 </p>
                                 <p className="text-gray-600">
                                     By using our services, you agree to the collection and use of information in accordance with this Privacy Policy.
@@ -164,10 +164,10 @@ export default function PrivacyContent() {
                                     If you have any questions about this Privacy Policy or our data practices, please contact us:
                                 </p>
                                 <div className="bg-gray-50 p-6 rounded-lg">
-                                    <p className="text-gray-600 mb-2"><strong>AM Auto Agents</strong></p>
-                                    <p className="text-gray-600 mb-2">Email: <a href="mailto:info@amautoagents.com" className="text-blue-600 hover:underline">info@amautoagents.com</a></p>
+                                    <p className="text-gray-600 mb-2"><strong>AM Auto Group</strong></p>
+                                    <p className="text-gray-600 mb-2">Email: <a href="mailto:info@amautogroup.com" className="text-blue-600 hover:underline">info@amautogroup.com</a></p>
                                     <p className="text-gray-600 mb-2">Phone: <a href="tel:0492858699" className="text-blue-600 hover:underline">0492 858 699</a></p>
-                                    <p className="text-gray-600">Address: TBC</p>
+                                    <p className="text-gray-600">Address: 12/1017 Canley Vale road, Wetherill Park, 2164</p>
                                 </div>
                             </section>
                         </div>

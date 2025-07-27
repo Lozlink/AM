@@ -13,6 +13,7 @@
     "@dotenvx/dotenvx": "^1.44.2",
     "@headlessui/react": "^2.2.4",
     "@hookform/resolvers": "^5.1.1",
+    "@react-google-maps/api": "^2.20.7",
     "@supabase/supabase-js": "^2.50.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.18.1",

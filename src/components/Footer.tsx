@@ -17,13 +17,13 @@ export default function Footer() {
               </p>
               <div className="space-y-2 text-gray-300">
                 <div>📞 0492 858 699</div>
-                <div>📧 info@amautoagents.com</div>
+                <div>📧 info@amautogroup.com</div>
                 <div>🌏 We operate across all of Australia</div>
               </div>
               
               <div className=" space-y-2 text-gray-300">
                 
-                <div>📍 Address to be confirmed</div>
+                <div>📍 12/1017 Canley Vale road, Wetherill Park, 2164</div>
                 <div>🕒 Operating hours: 9am-5:30pm Mon-Sunday (Viewing via Appointments)</div>
               </div>
             </div>

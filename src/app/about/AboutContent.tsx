@@ -11,7 +11,7 @@ export default function AboutContent() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center">
                         <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                            About AM Auto Agents
+                            About AM Auto Group
                         </h1>
                         <p className="text-xl text-gray-200 max-w-2xl mx-auto">
                             Your trusted partner in finding quality used vehicles across Australia.
@@ -34,7 +34,7 @@ export default function AboutContent() {
                             Our Story
                         </h2>
                         <p className="text-xl text-gray-600 leading-relaxed">
-                            AM Auto Agents was founded with a simple mission: to revolutionize the car buying experience
+                            AM Auto Group was founded with a simple mission: to revolutionize the car buying experience
                             by putting customers first. We understand that finding the right vehicle can be overwhelming,
                             which is why we&apos;ve built a service that takes the stress out of car shopping.
                         </p>
@@ -177,9 +177,17 @@ export default function AboutContent() {
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.2 }}
-                        className="text-xl text-gray-600 mb-8"
+                        className="text-xl text-gray-600 mb-4"
                     >
-                        Join hundreds of satisfied customers who have found their dream cars with AM Auto Agents.
+                        Join hundreds of satisfied customers who have found their dream cars with AM Auto Group.
+                    </motion.p>
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.3 }}
+                        className="text-gray-600 mb-8"
+                    >
+                        Visit us at: 12/1017 Canley Vale road, Wetherill Park, 2164
                     </motion.p>
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}

@@ -2,6 +2,7 @@
 
 import Header from '@/components/Header'
 import ContactForm from '@/components/ContactForm'
+import GoogleMap from '@/components/GoogleMap'
 import { motion } from 'framer-motion'
 
 export default function ContactPage() {
@@ -57,7 +58,7 @@ export default function ContactPage() {
                     <div className="text-2xl">📧</div>
                     <div>
                       <h3 className="font-semibold text-gray-900">Email</h3>
-                      <p className="text-gray-600">info@amautoagents.com</p>
+                      <p className="text-gray-600">info@amautogroup.com</p>
                       <p className="text-sm text-gray-500">We&apos;ll respond within 24 hours</p>
                     </div>
                   </div>
@@ -75,9 +76,17 @@ export default function ContactPage() {
                     <div className="text-2xl">📍</div>
                     <div>
                       <h3 className="font-semibold text-gray-900">Location</h3>
-                      <p className="text-gray-600">Address to be confirmed</p>
+                      <p className="text-gray-600">12/1017 Canley Vale road, Wetherill Park, 2164</p>
                       <p className="text-sm text-gray-500">Operating hours: 9am-5:30pm Mon-Sunday (Viewing via Appointments)</p>
                     </div>
+                  </div>
+                  
+                  <div className="mt-6">
+                    <h3 className="font-semibold text-gray-900 mb-3">Find Us on the Map</h3>
+                    <GoogleMap 
+                      address="12/1017 Canley Vale road, Wetherill Park, 2164" 
+                      height="300px"
+                    />
                   </div>
                 </div>
               </motion.div>
@@ -89,7 +98,7 @@ export default function ContactPage() {
                 className="bg-blue-100 rounded-xl p-8 border border-blue-200"
               >
                 <h3 className="text-xl font-bold text-gray-900 mb-4">
-                  Why Choose AM Auto Agents?
+                  Why Choose AM Auto Group?
                 </h3>
                 <ul className="space-y-3 text-gray-700">
                   <li className="flex items-start space-x-3">
