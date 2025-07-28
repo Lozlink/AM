@@ -40,19 +40,21 @@ export default function FAQContent() {
             faqs: [
                 {
                     question: "How do I start the car buying process with AM Auto Group?",
-                    answer: "Starting is easy! You can browse our inventory online, visit our dealership, or contact us directly. Our team will guide you through the entire process, from selecting the right vehicle to finalizing the paperwork."
+                    answer: "Starting is easy! You can browse our inventory To start, simply browse our online inventory or contact us directly. You can either inquire about a specific vehicle or let us know what you’re looking for, and our team will guide you every step of the way., visit our dealership, or contact us directly. Our team will guide you through the entire process, from selecting the right vehicle to finalizing the paperwork."
                 },
                 {
                     question: "Do you offer test drives?",
-                    answer: "Yes, we encourage test drives! You can schedule a test drive by contacting us or visiting our dealership. We believe experiencing the vehicle firsthand is an important part of making the right choice."
+                    answer: "Yes! We encourage you to test drive any vehicle you are interested in before making a purchase. Please contact us to schedule an appointment."
+
+
                 },
                 {
                     question: "What documents do I need to purchase a vehicle?",
-                    answer: "You'll need a valid driver's license, proof of insurance, and proof of income. If you're financing, additional documentation may be required, such as proof of residence and references."
+                    answer: "You’ll need to bring a valid photo ID (such as a driver’s license), proof of address, and any financing or loan documents if applicable. We’ll also need proof of income for financing, if you’re looking to secure a loan."
                 },
                 {
                     question: "Can I trade in my current vehicle?",
-                    answer: "Absolutely! We accept trade-ins and will provide a fair market value for your vehicle. The trade-in value can be applied to your new purchase, reducing the overall cost."
+                    answer: "Absolutely! We accept trade-ins and will offer you a fair price based on the condition and market value of your vehicle. Contact us to get an initial estimate or bring your car in for an appraisal."
                 }
             ]
         },
@@ -61,19 +63,19 @@ export default function FAQContent() {
             faqs: [
                 {
                     question: "What financing options do you offer?",
-                    answer: "We offer various financing options to suit different needs and credit situations. We work with multiple lenders to ensure you get the best possible rate and terms for your situation."
+                    answer: "We offer a variety of financing options through trusted partners. Our team will help you secure a loan that fits your budget, whether you’re looking for a short or long-term loan."
                 },
                 {
                     question: "Can I get financing with bad credit?",
-                    answer: "Yes, we have financing options for all credit situations. Our finance team specializes in helping customers with challenging credit histories find suitable financing solutions."
+                    answer: "Yes! We work with multiple lenders who specialize in helping customers with less-than-perfect credit. Contact us to discuss the best options for you."
                 },
                 {
                     question: "Do you require a down payment?",
-                    answer: "Down payment requirements vary based on the vehicle, your credit history, and the financing terms. While a down payment can lower your monthly payments and interest costs, we have options with minimal down payments."
+                    answer: "A down payment may be required depending on the vehicle and financing terms. Our team will guide you through this process and find a solution that suits your needs."
                 },
                 {
                     question: "What payment methods do you accept?",
-                    answer: "We accept cash, bank transfers, certified checks, and most major credit cards. For financed purchases, payments are typically made directly to the lender according to your agreement."
+                    answer: "We accept payments via bank transfer, credit card, and other secure methods. If you're using financing, we will work with you to ensure your loan terms are clear."
                 }
             ]
         },
@@ -82,15 +84,15 @@ export default function FAQContent() {
             faqs: [
                 {
                     question: "Do your vehicles come with a warranty?",
-                    answer: "Yes, all our vehicles come with a limited warranty. The specific terms and coverage vary by vehicle. We also offer extended warranty options for additional peace of mind."
+                    answer: "Yes, all of our vehicles come with a limited warranty. The specific terms depend on the vehicle's age and condition. Our team will provide full details on any warranty available at the time of purchase."
                 },
                 {
                     question: "What if I have issues with my vehicle after purchase?",
-                    answer: "Customer satisfaction is our priority. If you experience any issues, contact us immediately, and we'll work to resolve them promptly. Depending on the nature of the issue and warranty coverage, repairs may be covered."
+                    answer: "If you experience any issues with your vehicle, don’t hesitate to reach out. We’ll work with you to resolve the problem, whether through repairs under warranty or assisting with service options."
                 },
                 {
                     question: "Do you offer service and maintenance?",
-                    answer: "While we don't have an in-house service department, we have partnerships with trusted local service centers. We can provide recommendations and help coordinate service appointments."
+                    answer: "Yes, we provide ongoing service and maintenance options for all vehicles sold. Regular maintenance is key to keeping your car running smoothly, and we offer competitive rates for servicing."
                 }
             ]
         },
@@ -99,19 +101,20 @@ export default function FAQContent() {
             faqs: [
                 {
                     question: "How often do you update your inventory?",
-                    answer: "Our inventory is updated regularly, often daily. We're constantly acquiring new vehicles to provide a wide selection for our customers."
+                    answer: "Our inventory is updated regularly as we acquire new used vehicles. Be sure to check back frequently or sign up for updates to receive notifications when new cars arrive."
                 },
                 {
                     question: "Can you help me find a specific vehicle that's not in your inventory?",
-                    answer: "Absolutely! We have an extensive network and can help source specific vehicles. Let us know what you're looking for, and we'll do our best to find it for you."
+                    answer: "Yes! If you're looking for a particular model that isn’t currently in stock, let us know. We’ll do our best to source it for you or offer a similar option."
+
                 },
                 {
                     question: "Do you sell new vehicles or only used?",
-                    answer: "We specialize in quality used vehicles. This allows us to offer excellent value while ensuring each vehicle meets our high standards for condition and reliability."
+                    answer: "At AM Auto Group, we specialize in offering quality pre-owned vehicles, but we occasionally feature new models. Our focus is on providing a wide selection of used cars to meet various budgets and needs."
                 },
                 {
                     question: "How do you ensure the quality of your vehicles?",
-                    answer: "Each vehicle undergoes a comprehensive inspection process before being added to our inventory. We check mechanical components, safety features, and cosmetic condition to ensure they meet our standards."
+                    answer: "We rigorously inspect all vehicles before they are listed for sale. Our team conducts thorough checks, including mechanical, cosmetic, and safety inspections, to ensure that each vehicle meets high standards of quality."
                 }
             ]
         }
