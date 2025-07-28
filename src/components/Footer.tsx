@@ -4,12 +4,12 @@ import Logo from '@/components/Logo'
 export default function Footer() {
   return (
       <footer className="bg-gray-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
           <div className="flex flex-col md:flex-row justify-evenly gap-12">
             {/* Company Info */}
             <div className="flex-1 text-center md:text-left">
               <div className="flex md:justify-start justify-center">
-                <Logo size="2xl" />
+                <Logo size="3xl" />
               </div>
               <p className="text-gray-300 mb-6 max-w-md mx-auto md:mx-0">
                 Your trusted partner in finding quality used vehicles across Australia.
@@ -29,7 +29,7 @@ export default function Footer() {
             </div>
 
             {/* Quick Links */}
-            <div className="flex-initial flex flex-col justify-start pt-15 text-center md:text-left">
+            <div className="flex-initial flex flex-col justify-start md:pt-20 text-center md:text-left">
               <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-2">
                 <li>
