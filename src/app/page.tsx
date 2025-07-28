@@ -4,12 +4,12 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: "AM Auto Agents - Quality Used Cars Australia | Nationwide Vehicle Sourcing",
-  description: "Find your dream car with AM Auto Agents. We source quality used vehicles nationwide across Australia with personalized service, trust, and transparency. Browse our inventory or get a custom quote today.",
+  title: "AM Auto Group - Quality Used Cars Australia | Nationwide Vehicle Sourcing",
+  description: "Find your dream car with AM Auto Group. We source quality used vehicles nationwide across Australia with personalized service, trust, and transparency. Browse our inventory or get a custom quote today.",
   keywords: "used cars Australia, car dealership, vehicle sourcing, quality cars, car buying, nationwide sourcing, personalized service",
   openGraph: {
-    title: "AM Auto Agents - Quality Used Cars Australia",
-    description: "Find your dream car with AM Auto Agents. We source quality used vehicles nationwide across Australia with personalized service, trust, and transparency.",
+    title: "AM Auto Group - Quality Used Cars Australia",
+    description: "Find your dream car with AM Auto Group. We source quality used vehicles nationwide across Australia with personalized service, trust, and transparency.",
     type: "website",
     locale: "en_AU",
   },
@@ -51,21 +51,24 @@ export default function Home() {
                   title: 'Financing Options',
                   description: 'We offer tailored financing solutions to help you secure your next vehicle with competitive rates and flexible terms to suit your budget.',
                   bgColor: 'bg-emerald-50 border-emerald-200 hover:bg-emerald-100',
-                  link: '/contact'
+                  link: '/contact',
+                  ctaText: 'Get Financing Quote'
                 },
                 {
                   icon: '🛡️',
                   title: 'Warranty Coverage',
                   description: 'Drive with confidence knowing your vehicle is protected with our comprehensive warranty options for peace of mind on the road.',
                   bgColor: 'bg-teal-50 border-teal-200 hover:bg-teal-100',
-                  link: '/contact'
+                  link: '/contact',
+                  ctaText: 'Learn About Warranty'
                 },
                 {
                   icon: '🚚',
                   title: 'Interstate Transport',
                   description: 'No matter where you are in Australia, we can arrange safe and reliable transport of your vehicle directly to your doorstep.',
                   bgColor: 'bg-cyan-50 border-cyan-200 hover:bg-cyan-100',
-                  link: '/contact'
+                  link: '/contact',
+                  ctaText: 'Get Transport Quote'
                 }
               ].map((feature, index) => (
                   <div
@@ -79,11 +82,31 @@ export default function Home() {
                       href={feature.link} 
                       className="inline-block bg-slate-900 text-white px-4 py-2 rounded-lg font-medium hover:bg-emerald-600 transition-colors"
                     >
-                      Learn More
+                      {feature.ctaText}
                     </Link>
                   </div>
               ))}
             </div>
+          </div>
+        </section>
+
+
+
+        {/* Quick Contact CTA */}
+        <section className="py-16 bg-emerald-600">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+              Need Immediate Assistance?
+            </h2>
+            <p className="text-lg text-emerald-100 mb-8">
+              Call us directly for quick answers to your questions
+            </p>
+            <a
+                href="tel:0402699999"
+                className="inline-block bg-white text-emerald-600 px-8 py-4 rounded-lg text-lg font-bold hover:bg-slate-100 transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
+            >
+              📞 Call 0402 699 999
+            </a>
           </div>
         </section>
 
@@ -155,7 +178,7 @@ export default function Home() {
             <p className="text-xl mb-8 max-w-2xl mx-auto opacity-90">
               Experience trust, excellence, and satisfaction. Complete the form today to find your next car!
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <Link
                   href="/vehicles"
                   className="bg-white text-slate-900 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-slate-100 transition-colors shadow-lg"
@@ -168,6 +191,15 @@ export default function Home() {
               >
                 Get Quote
               </Link>
+            </div>
+            <div className="border-t border-white border-opacity-20 pt-8">
+              <p className="text-lg mb-4">Or call us directly for immediate assistance:</p>
+              <a
+                  href="tel:0402699999"
+                  className="inline-block bg-emerald-500 text-white px-8 py-4 rounded-lg text-lg font-bold hover:bg-emerald-600 transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
+              >
+                📞 Call 0402 699 999
+              </a>
             </div>
           </div>
         </section>

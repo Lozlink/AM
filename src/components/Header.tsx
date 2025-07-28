@@ -11,7 +11,7 @@ export default function Header() {
   return (
       <header className="bg-slate-900 shadow-lg sticky top-0 z-50 border-b border-slate-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
+          <div className="flex justify-between items-center h-24">
             {/* Logo - Give it more space */}
             <div className="flex-shrink-0">
               <Link href="/" className="block">
@@ -20,7 +20,7 @@ export default function Header() {
                     animate={{ opacity: 1, x: 0 }}
                     className="block"
                 >
-                  <Logo size="2xl" />
+                  <Logo size="3xl" />
                 </motion.div>
               </Link>
             </div>
@@ -47,12 +47,15 @@ export default function Header() {
 
             {/* CTA Button */}
             <div className="hidden md:block flex-shrink-0">
-              <Link
-                  href="/contact"
-                  className="bg-emerald-500 text-white px-6 py-2 rounded-lg hover:bg-emerald-600 transition-colors font-semibold shadow-lg"
+              <a
+                  href="tel:0402699999"
+                  className="bg-emerald-500 text-white px-6 py-2 rounded-lg hover:bg-emerald-600 transition-colors font-semibold shadow-lg flex items-center gap-2"
               >
-                Get Quote
-              </Link>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+                0402 699 999
+              </a>
             </div>
 
             {/* Mobile menu button */}

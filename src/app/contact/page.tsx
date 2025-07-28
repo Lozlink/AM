@@ -50,7 +50,7 @@ export default function ContactPage() {
                     <div className="text-2xl">📞</div>
                     <div>
                       <h3 className="font-semibold text-gray-900">Phone</h3>
-                      <p className="text-gray-600">0492 858 699</p>
+                      <p className="text-gray-600">0402 699 999</p>
                     </div>
                   </div>
 

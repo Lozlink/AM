@@ -141,18 +141,45 @@ export default function Hero() {
                       {slides[currentSlide].description}
                     </p>
 
-                    {/* CTA Button */}
+                    {/* CTA Buttons */}
                     <motion.div
                         initial={{ y: 20, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ duration: 0.8, delay: 0.6 }}
+                        className="flex flex-col sm:flex-row gap-4 justify-center"
                     >
-                      <Link
-                          href="/vehicles"
-                          className="inline-block bg-emerald-500 text-black px-8 py-4 rounded-lg text-lg font-bold hover:bg-orange-400 transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
-                      >
-                        Browse Vehicles
-                      </Link>
+                      {currentSlide === 0 && (
+                        <Link
+                            href="/vehicles"
+                            className="inline-block bg-emerald-500 text-black px-8 py-4 rounded-lg text-lg font-bold hover:bg-orange-400 transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
+                        >
+                          Browse Vehicles
+                        </Link>
+                      )}
+                      {currentSlide === 1 && (
+                        <Link
+                            href="/contact"
+                            className="inline-block bg-emerald-500 text-black px-8 py-4 rounded-lg text-lg font-bold hover:bg-orange-400 transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
+                        >
+                          Get Financing Quote
+                        </Link>
+                      )}
+                      {currentSlide === 2 && (
+                        <Link
+                            href="/contact"
+                            className="inline-block bg-emerald-500 text-black px-8 py-4 rounded-lg text-lg font-bold hover:bg-orange-400 transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
+                        >
+                          Learn About Warranty
+                        </Link>
+                      )}
+                      {currentSlide === 3 && (
+                        <Link
+                            href="/contact"
+                            className="inline-block bg-emerald-500 text-black px-8 py-4 rounded-lg text-lg font-bold hover:bg-orange-400 transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
+                        >
+                          Get Transport Quote
+                        </Link>
+                      )}
                     </motion.div>
                   </motion.div>
                 </div>
@@ -183,19 +210,25 @@ export default function Hero() {
         </button>
 
         {/* Dot Indicators */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3 z-[1001]">
-          {slides.map((_, index) => (
-              <button
-                  key={index}
-                  onClick={() => goToSlide(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                      index === currentSlide
-                          ? 'bg-orange-500 scale-125'
-                          : 'bg-white bg-opacity-50 hover:bg-opacity-75'
-                  }`}
-                  aria-label={`Go to slide ${index + 1}`}
-              />
-          ))}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center space-y-2 z-[1001]">
+          <div className="flex space-x-3">
+            {slides.map((_, index) => (
+                <button
+                    key={index}
+                    onClick={() => goToSlide(index)}
+                    className={`w-4 h-4 rounded-full transition-all duration-300 cursor-pointer border-2 ${
+                        index === currentSlide
+                            ? 'bg-orange-500 scale-125 shadow-lg border-orange-300'
+                            : 'bg-white bg-opacity-50 hover:bg-opacity-75 hover:scale-110 border-white border-opacity-30'
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                    style={{ cursor: 'pointer' }}
+                />
+            ))}
+          </div>
+          <div className="text-white text-xs opacity-70 bg-black bg-opacity-20 px-2 py-1 rounded">
+            Click to navigate
+          </div>
         </div>
 
         {/* Progress Bar */}
