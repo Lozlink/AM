@@ -218,7 +218,7 @@ export default function Hero() {
                     onClick={() => goToSlide(index)}
                     className={`w-4 h-4 rounded-full transition-all duration-300 cursor-pointer border-2 ${
                         index === currentSlide
-                            ? 'bg-orange-500 scale-125 shadow-lg border-orange-300'
+                            ? 'bg-emerald-500 scale-125 shadow-lg border-gray-200'
                             : 'bg-white bg-opacity-50 hover:bg-opacity-75 hover:scale-110 border-white border-opacity-30'
                     }`}
                     aria-label={`Go to slide ${index + 1}`}
@@ -226,9 +226,7 @@ export default function Hero() {
                 />
             ))}
           </div>
-          <div className="text-white text-xs opacity-70 bg-black bg-opacity-20 px-2 py-1 rounded">
-            Click to navigate
-          </div>
+          
         </div>
 
         {/* Progress Bar */}

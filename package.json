@@ -7,15 +7,18 @@
     "build": "dotenvx run -f .env.production -- next build",
     "start": "dotenvx run -f .env.production -- next start",
     "lint": "dotenvx run -- next lint",
-    "seed": "dotenvx run -- npx tsx src/scripts/seedCars.ts\n"
+    "seed": "dotenvx run -- npx tsx src/scripts/seedCars.ts",
+    "create-inquiries-table": "dotenvx run -- npx tsx src/scripts/createInquiriesTable.sql"
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^1.44.2",
+    "@emailjs/browser": "^4.4.1",
     "@headlessui/react": "^2.2.4",
     "@hookform/resolvers": "^5.1.1",
     "@react-google-maps/api": "^2.20.7",
     "@supabase/supabase-js": "^2.50.0",
     "clsx": "^2.1.1",
+    "emailjs": "^4.0.3",
     "framer-motion": "^12.18.1",
     "next": "15.3.3",
     "react": "^19.0.0",

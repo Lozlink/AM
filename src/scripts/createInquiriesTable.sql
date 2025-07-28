@@ -1,28 +1,34 @@
--- Create inquiries table
+-- Create inquiries table (updated for new contact form)
 CREATE TABLE IF NOT EXISTS inquiries (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   name TEXT NOT NULL,
   email TEXT NOT NULL,
-  phone TEXT NOT NULL,
+  phone TEXT,
   message TEXT NOT NULL,
-  inquiry_type TEXT NOT NULL CHECK (inquiry_type IN ('general', 'vehicle', 'quote', 'partnership')),
+  enquiry_type TEXT NOT NULL CHECK (enquiry_type IN ('general', 'sell', 'financing', 'warranty', 'transport')),
+  vehicle_make TEXT,
+  vehicle_model TEXT,
+  vehicle_year TEXT,
+  vehicle_condition TEXT,
+  budget TEXT,
+  preferred_location TEXT,
   status TEXT NOT NULL DEFAULT 'new' CHECK (status IN ('new', 'contacted', 'resolved', 'spam')),
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Create index for better query performance
+-- Indexes
 CREATE INDEX IF NOT EXISTS idx_inquiries_status ON inquiries(status);
 CREATE INDEX IF NOT EXISTS idx_inquiries_created_at ON inquiries(created_at);
 
 -- Enable Row Level Security (RLS)
 ALTER TABLE inquiries ENABLE ROW LEVEL SECURITY;
 
--- Create policy to allow all operations (for now - you can restrict this later)
+-- Allow all operations (for now)
 CREATE POLICY "Allow all operations on inquiries" ON inquiries
   FOR ALL USING (true);
 
--- Create function to update updated_at timestamp
+-- updated_at trigger
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -31,7 +37,6 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
--- Create trigger to automatically update updated_at
 CREATE TRIGGER update_inquiries_updated_at
   BEFORE UPDATE ON inquiries
   FOR EACH ROW

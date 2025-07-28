@@ -1,7 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
+import { supabase } from '@/lib/supabaseClient'
+// @ts-ignore
+import emailjs from '@emailjs/browser';
+
 
 export default function ContactForm() {
   const [enquiryType, setEnquiryType] = useState('general')
@@ -17,11 +21,77 @@ export default function ContactForm() {
     budget: '',
     preferredLocation: ''
   })
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const feedbackRef = useRef<HTMLDivElement>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Add your form submission logic here
-    console.log('Form submitted:', formData)
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    setSuccess(false);
+
+    // Prepare data for Supabase
+    const supabaseData = {   
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      message: formData.message,
+      enquiry_type: enquiryType,
+      vehicle_make: formData.vehicleMake || "",
+      vehicle_model: formData.vehicleModel || "", 
+      vehicle_year: formData.vehicleYear || "",
+      vehicle_condition: formData.vehicleCondition || "",
+      budget: formData.budget || "",
+      preferred_location: formData.preferredLocation || "",
+    };
+
+    // Insert into Supabase
+    const { error: supabaseError } = await supabase.from('inquiries').insert([supabaseData]);
+    if (supabaseError) {
+      setError('Failed to save your enquiry. Please try again.');
+      setLoading(false);
+      setTimeout(() => {
+        if (feedbackRef.current) feedbackRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+      return;
+    }
+    
+
+    // Send via EmailJS
+    try {
+      console.log('EmailJS payload:', supabaseData);
+      await emailjs.send(
+        'service_vgr4wb8',
+        'template_9tsmw4s',
+         supabaseData,
+        'J4nc-QtmOnFVrHKM7'
+      );
+      setSuccess(true);
+      setLoading(false);
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        message: '',
+        vehicleMake: '',
+        vehicleModel: '',
+        vehicleYear: '',
+        vehicleCondition: '',
+        budget: '',
+        preferredLocation: ''
+      });
+      setTimeout(() => {
+        if (feedbackRef.current) feedbackRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    } catch (err) {
+      setError('Your enquiry was saved, but email notification failed.');
+      setLoading(false);
+      setTimeout(() => {
+        if (feedbackRef.current) feedbackRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -71,6 +141,35 @@ export default function ContactForm() {
         <h2 className="text-2xl font-bold text-gray-900 mb-6">
           {getEnquiryTypeTitle()}
         </h2>
+
+        <div ref={feedbackRef} />
+        {loading && (
+          <div className="bg-blue-100 border border-blue-200 text-blue-800 px-4 py-3 rounded relative mb-4 flex items-center justify-between" role="alert">
+            <div className="flex items-center gap-2">
+              <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path></svg>
+              <span><strong className="font-bold">Loading...</strong> Your enquiry is being processed.</span>
+            </div>
+            <button onClick={() => setLoading(false)} className="ml-4 text-blue-800 hover:text-blue-900 font-bold text-xl leading-none">×</button>
+          </div>
+        )}
+        {success && (
+          <div className="bg-green-100 border border-green-200 text-green-800 px-4 py-3 rounded relative mb-4 flex items-center justify-between" role="alert">
+            <div className="flex items-center gap-2">
+              <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+              <span><strong className="font-bold">Success!</strong> Your enquiry has been submitted.</span>
+            </div>
+            <button onClick={() => setSuccess(false)} className="ml-4 text-green-800 hover:text-green-900 font-bold text-xl leading-none">×</button>
+          </div>
+        )}
+        {error && (
+          <div className="bg-red-100 border border-red-200 text-red-800 px-4 py-3 rounded relative mb-4 flex items-center justify-between" role="alert">
+            <div className="flex items-center gap-2">
+              <svg className="w-6 h-6 text-red-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <span><strong className="font-bold">Error!</strong> {error}</span>
+            </div>
+            <button onClick={() => setError(null)} className="ml-4 text-red-800 hover:text-red-900 font-bold text-xl leading-none">×</button>
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Enquiry Type Selector */}

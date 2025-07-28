@@ -22,35 +22,48 @@ export default function Home() {
         <Hero />
 
         {/* Welcome Section */}
-        <section className="py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-                Welcome to AM Auto Group
-              </h2>
-              <div className="text-lg text-slate-600 max-w-4xl mx-auto space-y-4">
-                <p>
-                  Located in Wetherill Park, AM Auto Group is your trusted destination for buying and selling quality vehicles across Australia. Whether you're looking for a compact car, family SUV, or a high-performance sports car, we offer a wide range of pre-owned vehicles to suit every lifestyle and budget.
-                </p>
-                <p>
-                  Our team of experienced professionals is dedicated to providing an exceptional car-buying experience. We pride ourselves on offering a diverse selection of vehicles, each thoroughly inspected to ensure it meets our high standards of quality, safety, and reliability.
-                </p>
-                <p>
-                  At AM Auto Group, we go beyond just selling cars – we provide tailored financing solutions to help you secure your next vehicle with ease, along with comprehensive after-sales services to keep your car running smoothly for years to come.
-                </p>
-                <p>
-                  Visit us today to explore our inventory and discover why AM Auto Group is the preferred choice for customers across Australia. Your next vehicle is waiting for you!
-                </p>
+        <section className="py-20 bg-slate-100 relative overflow-hidden">
+          {/* Background image and overlay */}
+          <div className="absolute inset-0 w-full h-full z-0">
+            <img
+              src="/car-bg.jpg"
+              alt="Car dealership background"
+              className="w-full h-full object-cover object-center blur-sm scale-105"
+              style={{ filter: 'brightness(0.5) blur(4px)' }}
+            />
+            <div className="absolute inset-0 bg-black/40" />
+          </div>
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
+            <div className="flex flex-col items-center mb-16">
+              <div className="mb-4">
+                <span className="inline-block w-12 h-1 rounded bg-emerald-400"></span>
+              </div>
+              <div className="bg-white bg-opacity-95 rounded-xl shadow-lg p-8 w-full max-w-4xl text-center">
+                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+                  Welcome to AM Auto Group
+                </h2>
+                <div className="text-lg text-slate-600 space-y-4">
+                  <p>
+                    Located in Wetherill Park, AM Auto Group is your trusted destination for buying and selling quality vehicles across Australia. Whether you're looking for a compact car, family SUV, or a high-performance sports car, we offer a wide range of pre-owned vehicles to suit every lifestyle and budget.
+                  </p>
+                  <p>
+                    Our team of experienced professionals is dedicated to providing an exceptional car-buying experience. We pride ourselves on offering a diverse selection of vehicles, each thoroughly inspected to ensure it meets our high standards of quality, safety, and reliability.
+                  </p>
+                  <p>
+                    At AM Auto Group, we go beyond just selling cars – we provide tailored financing solutions to help you secure your next vehicle with ease, along with comprehensive after-sales services to keep your car running smoothly for years to come.
+                  </p>
+                  <p>
+                    Visit us today to explore our inventory and discover why AM Auto Group is the preferred choice for customers across Australia. Your next vehicle is waiting for you!
+                  </p>
+                </div>
               </div>
             </div>
-
             <div className="grid md:grid-cols-3 gap-8">
               {[
                 {
                   icon: '💰',
                   title: 'Financing Options',
                   description: 'We offer tailored financing solutions to help you secure your next vehicle with competitive rates and flexible terms to suit your budget.',
-                  bgColor: 'bg-emerald-50 border-emerald-200 hover:bg-emerald-100',
                   link: '/contact',
                   ctaText: 'Get Financing Quote'
                 },
@@ -58,7 +71,6 @@ export default function Home() {
                   icon: '🛡️',
                   title: 'Warranty Coverage',
                   description: 'Drive with confidence knowing your vehicle is protected with our comprehensive warranty options for peace of mind on the road.',
-                  bgColor: 'bg-teal-50 border-teal-200 hover:bg-teal-100',
                   link: '/contact',
                   ctaText: 'Learn About Warranty'
                 },
@@ -66,14 +78,13 @@ export default function Home() {
                   icon: '🚚',
                   title: 'Interstate Transport',
                   description: 'No matter where you are in Australia, we can arrange safe and reliable transport of your vehicle directly to your doorstep.',
-                  bgColor: 'bg-cyan-50 border-cyan-200 hover:bg-cyan-100',
                   link: '/contact',
                   ctaText: 'Get Transport Quote'
                 }
               ].map((feature, index) => (
                   <div
                       key={index}
-                      className={`text-center p-8 rounded-xl transition-colors border ${feature.bgColor} hover:shadow-lg`}
+                      className="text-center p-8 rounded-xl bg-white shadow-md transition-all hover:shadow-lg"
                   >
                     <div className="text-4xl mb-4">{feature.icon}</div>
                     <h3 className="text-xl font-semibold text-slate-900 mb-3">{feature.title}</h3>
@@ -93,17 +104,17 @@ export default function Home() {
 
 
         {/* Quick Contact CTA */}
-        <section className="py-16 bg-emerald-600">
+        <section className="py-16 bg-slate-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">
               Need Immediate Assistance?
             </h2>
-            <p className="text-lg text-emerald-100 mb-8">
+            <p className="text-lg text-slate-600 mb-8">
               Call us directly for quick answers to your questions
             </p>
             <a
                 href="tel:0402699999"
-                className="inline-block bg-white text-emerald-600 px-8 py-4 rounded-lg text-lg font-bold hover:bg-slate-100 transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
+                className="inline-block bg-emerald-500 text-white px-8 py-4 rounded-lg text-lg font-bold hover:bg-emerald-600 transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
             >
               📞 Call 0402 699 999
             </a>
@@ -170,7 +181,7 @@ export default function Home() {
         {/*</section>*/}
 
         {/* CTA Section */}
-        <section className="py-20 gradient-brand text-white">
+        <section className="py-20 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Ready to Find Your Dream Car?
