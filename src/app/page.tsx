@@ -21,46 +21,66 @@ export default function Home() {
         <Header />
         <Hero />
 
-        {/* Features Section */}
+        {/* Welcome Section */}
         <section className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-                Why Choose AM Auto Group?
+                Welcome to AM Auto Group
               </h2>
-              <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-                We make car buying simple, transparent, and enjoyable with our nationwide sourcing expertise.
-              </p>
+              <div className="text-lg text-slate-600 max-w-4xl mx-auto space-y-4">
+                <p>
+                  Located in Wetherill Park, AM Auto Group is your trusted destination for buying and selling quality vehicles across Australia. Whether you're looking for a compact car, family SUV, or a high-performance sports car, we offer a wide range of pre-owned vehicles to suit every lifestyle and budget.
+                </p>
+                <p>
+                  Our team of experienced professionals is dedicated to providing an exceptional car-buying experience. We pride ourselves on offering a diverse selection of vehicles, each thoroughly inspected to ensure it meets our high standards of quality, safety, and reliability.
+                </p>
+                <p>
+                  At AM Auto Group, we go beyond just selling cars – we provide tailored financing solutions to help you secure your next vehicle with ease, along with comprehensive after-sales services to keep your car running smoothly for years to come.
+                </p>
+                <p>
+                  Visit us today to explore our inventory and discover why AM Auto Group is the preferred choice for customers across Australia. Your next vehicle is waiting for you!
+                </p>
+              </div>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
               {[
                 {
-                  icon: '🎯',
-                  title: 'Personalized Service',
-                  description: 'Tell us your dream car specifications and we\'ll find the perfect match for your needs and budget.',
-                  bgColor: 'bg-emerald-50 border-emerald-200 hover:bg-emerald-100'
+                  icon: '💰',
+                  title: 'Financing Options',
+                  description: 'We offer tailored financing solutions to help you secure your next vehicle with competitive rates and flexible terms to suit your budget.',
+                  bgColor: 'bg-emerald-50 border-emerald-200 hover:bg-emerald-100',
+                  link: '/contact'
                 },
                 {
-                  icon: '🌏',
-                  title: 'Nationwide Sourcing',
-                  description: 'We search across Australia to find the best deals on quality used vehicles, saving you time and money.',
-                  bgColor: 'bg-teal-50 border-teal-200 hover:bg-teal-100'
+                  icon: '🛡️',
+                  title: 'Warranty Coverage',
+                  description: 'Drive with confidence knowing your vehicle is protected with our comprehensive warranty options for peace of mind on the road.',
+                  bgColor: 'bg-teal-50 border-teal-200 hover:bg-teal-100',
+                  link: '/contact'
                 },
                 {
-                  icon: '🤝',
-                  title: 'Trust & Transparency',
-                  description: 'Our commitment to honesty and quality ensures you get a reliable vehicle with full disclosure.',
-                  bgColor: 'bg-cyan-50 border-cyan-200 hover:bg-cyan-100'
+                  icon: '🚚',
+                  title: 'Interstate Transport',
+                  description: 'No matter where you are in Australia, we can arrange safe and reliable transport of your vehicle directly to your doorstep.',
+                  bgColor: 'bg-cyan-50 border-cyan-200 hover:bg-cyan-100',
+                  link: '/contact'
                 }
               ].map((feature, index) => (
                   <div
                       key={index}
-                      className={`text-center p-8 rounded-xl transition-colors border ${feature.bgColor}`}
+                      className={`text-center p-8 rounded-xl transition-colors border ${feature.bgColor} hover:shadow-lg`}
                   >
                     <div className="text-4xl mb-4">{feature.icon}</div>
                     <h3 className="text-xl font-semibold text-slate-900 mb-3">{feature.title}</h3>
-                    <p className="text-slate-600">{feature.description}</p>
+                    <p className="text-slate-600 mb-4">{feature.description}</p>
+                    <Link 
+                      href={feature.link} 
+                      className="inline-block bg-slate-900 text-white px-4 py-2 rounded-lg font-medium hover:bg-emerald-600 transition-colors"
+                    >
+                      Learn More
+                    </Link>
                   </div>
               ))}
             </div>

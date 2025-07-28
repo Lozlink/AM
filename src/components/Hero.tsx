@@ -22,23 +22,30 @@ export default function Hero() {
     {
       id: 1,
       image: '/image1.jpg',
-      title: 'Find Your Dream Car',
+      title: 'Browse Our Inventory',
       subtitle: 'Quality Used Vehicles',
-      description: 'Discover our carefully selected collection of premium used vehicles'
+      description: 'Explore our diverse selection of thoroughly inspected pre-owned vehicles'
     },
     {
       id: 2,
       image: '/image2.webp',
-      title: 'Trusted Nationwide',
-      subtitle: 'Australia Wide Service',
-      description: 'Serving customers across Australia with reliable car sourcing'
+      title: 'Flexible Financing Options',
+      subtitle: 'Tailored Financial Solutions',
+      description: 'Get competitive rates and flexible terms to suit your budget and needs'
     },
     {
       id: 3,
       image: '/image3.jpg',
-      title: 'Expert Guidance',
-      subtitle: 'Professional Service',
-      description: 'Our experienced team helps you find the perfect vehicle'
+      title: 'Comprehensive Warranty',
+      subtitle: 'Drive With Confidence',
+      description: 'Enjoy peace of mind with our extensive warranty coverage options'
+    },
+    {
+      id: 4,
+      image: '/image1.jpg',
+      title: 'Interstate Transport Available',
+      subtitle: 'Australia-Wide Delivery',
+      description: 'We deliver vehicles to your doorstep anywhere in Australia'
     }
   ]
 
