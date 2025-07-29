@@ -77,7 +77,7 @@ export default function Home() {
                 {
                   icon: '🚚',
                   title: 'Interstate Transport',
-                  description: 'No matter where you are in Australia, we can arrange safe and reliable transport of your vehicle directly to your doorstep.',
+                  description: 'No matter where you are in Australia, we can work at your convenience to arrange safe and reliable transport of your vehicle to your doorstep.',
                   link: '/contact',
                   ctaText: 'Get Transport Quote'
                 }
