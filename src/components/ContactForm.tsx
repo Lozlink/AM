@@ -26,6 +26,16 @@ export default function ContactForm() {
   const [error, setError] = useState<string | null>(null);
   const feedbackRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    if (enquiryFromUrl) {
+      const validEnquiryTypes = ['general', 'sell', 'financing', 'warranty', 'transport']
+      if (validEnquiryTypes.includes(enquiryFromUrl)) {
+        setEnquiryType(enquiryFromUrl)
+      }
+    }
+  }, [enquiryFromUrl])
+
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
