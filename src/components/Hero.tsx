@@ -158,7 +158,7 @@ export default function Hero() {
                       )}
                       {currentSlide === 1 && (
                         <Link
-                            href="/contact"
+                            href="/contact?enquiry=financing"
                             className="inline-block bg-emerald-500 text-black px-8 py-4 rounded-lg text-lg font-bold hover:bg-orange-400 transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
                         >
                           Get Financing Quote
@@ -166,7 +166,7 @@ export default function Hero() {
                       )}
                       {currentSlide === 2 && (
                         <Link
-                            href="/contact"
+                            href="/contact?enquiry=warranty"
                             className="inline-block bg-emerald-500 text-black px-8 py-4 rounded-lg text-lg font-bold hover:bg-orange-400 transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
                         >
                           Learn About Warranty
@@ -174,7 +174,7 @@ export default function Hero() {
                       )}
                       {currentSlide === 3 && (
                         <Link
-                            href="/contact"
+                            href="/contact?enquiry=transport"
                             className="inline-block bg-emerald-500 text-black px-8 py-4 rounded-lg text-lg font-bold hover:bg-orange-400 transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
                         >
                           Get Transport Quote

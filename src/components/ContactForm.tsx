@@ -1,13 +1,17 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { supabase } from '@/lib/supabaseClient'
+import { useSearchParams } from 'next/navigation'
 // @ts-ignore
 import emailjs from '@emailjs/browser';
 
 
 export default function ContactForm() {
+  const searchParams = useSearchParams()
+  const enquiryFromUrl = searchParams.get('enquiry')
+
   const [enquiryType, setEnquiryType] = useState('general')
   const [formData, setFormData] = useState({
     name: '',
@@ -26,6 +30,16 @@ export default function ContactForm() {
   const [error, setError] = useState<string | null>(null);
   const feedbackRef = useRef<HTMLDivElement>(null);
 
+  // Set enquiry type from URL parameter on component mount
+  useEffect(() => {
+    if (enquiryFromUrl) {
+      const validEnquiryTypes = ['general', 'sell', 'financing', 'warranty', 'transport']
+      if (validEnquiryTypes.includes(enquiryFromUrl)) {
+        setEnquiryType(enquiryFromUrl)
+      }
+    }
+  }, [enquiryFromUrl])
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -33,14 +47,14 @@ export default function ContactForm() {
     setSuccess(false);
 
     // Prepare data for Supabase
-    const supabaseData = {   
+    const supabaseData = {
       name: formData.name,
       email: formData.email,
       phone: formData.phone,
       message: formData.message,
       enquiry_type: enquiryType,
       vehicle_make: formData.vehicleMake || "",
-      vehicle_model: formData.vehicleModel || "", 
+      vehicle_model: formData.vehicleModel || "",
       vehicle_year: formData.vehicleYear || "",
       vehicle_condition: formData.vehicleCondition || "",
       budget: formData.budget || "",
@@ -57,16 +71,16 @@ export default function ContactForm() {
       }, 100);
       return;
     }
-    
+
 
     // Send via EmailJS
     try {
       console.log('EmailJS payload:', supabaseData);
       await emailjs.send(
-        'service_vgr4wb8',
-        'template_9tsmw4s',
-         supabaseData,
-        'J4nc-QtmOnFVrHKM7'
+          'service_vgr4wb8',
+          'template_9tsmw4s',
+          supabaseData,
+          'J4nc-QtmOnFVrHKM7'
       );
       setSuccess(true);
       setLoading(false);
@@ -142,33 +156,41 @@ export default function ContactForm() {
           {getEnquiryTypeTitle()}
         </h2>
 
+        {enquiryFromUrl && (
+            <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg mb-6">
+              <p className="text-sm">
+                <strong>Perfect!</strong> We've pre-selected "{getEnquiryTypeTitle()}" based on your interest. You can change this if needed.
+              </p>
+            </div>
+        )}
+
         <div ref={feedbackRef} />
         {loading && (
-          <div className="bg-blue-100 border border-blue-200 text-blue-800 px-4 py-3 rounded relative mb-4 flex items-center justify-between" role="alert">
-            <div className="flex items-center gap-2">
-              <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path></svg>
-              <span><strong className="font-bold">Loading...</strong> Your enquiry is being processed.</span>
+            <div className="bg-blue-100 border border-blue-200 text-blue-800 px-4 py-3 rounded relative mb-4 flex items-center justify-between" role="alert">
+              <div className="flex items-center gap-2">
+                <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path></svg>
+                <span><strong className="font-bold">Loading...</strong> Your enquiry is being processed.</span>
+              </div>
+              <button onClick={() => setLoading(false)} className="ml-4 text-blue-800 hover:text-blue-900 font-bold text-xl leading-none">×</button>
             </div>
-            <button onClick={() => setLoading(false)} className="ml-4 text-blue-800 hover:text-blue-900 font-bold text-xl leading-none">×</button>
-          </div>
         )}
         {success && (
-          <div className="bg-green-100 border border-green-200 text-green-800 px-4 py-3 rounded relative mb-4 flex items-center justify-between" role="alert">
-            <div className="flex items-center gap-2">
-              <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-              <span><strong className="font-bold">Success!</strong> Your enquiry has been submitted.</span>
+            <div className="bg-green-100 border border-green-200 text-green-800 px-4 py-3 rounded relative mb-4 flex items-center justify-between" role="alert">
+              <div className="flex items-center gap-2">
+                <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                <span><strong className="font-bold">Success!</strong> Your enquiry has been submitted.</span>
+              </div>
+              <button onClick={() => setSuccess(false)} className="ml-4 text-green-800 hover:text-green-900 font-bold text-xl leading-none">×</button>
             </div>
-            <button onClick={() => setSuccess(false)} className="ml-4 text-green-800 hover:text-green-900 font-bold text-xl leading-none">×</button>
-          </div>
         )}
         {error && (
-          <div className="bg-red-100 border border-red-200 text-red-800 px-4 py-3 rounded relative mb-4 flex items-center justify-between" role="alert">
-            <div className="flex items-center gap-2">
-              <svg className="w-6 h-6 text-red-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-              <span><strong className="font-bold">Error!</strong> {error}</span>
+            <div className="bg-red-100 border border-red-200 text-red-800 px-4 py-3 rounded relative mb-4 flex items-center justify-between" role="alert">
+              <div className="flex items-center gap-2">
+                <svg className="w-6 h-6 text-red-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <span><strong className="font-bold">Error!</strong> {error}</span>
+              </div>
+              <button onClick={() => setError(null)} className="ml-4 text-red-800 hover:text-red-900 font-bold text-xl leading-none">×</button>
             </div>
-            <button onClick={() => setError(null)} className="ml-4 text-red-800 hover:text-red-900 font-bold text-xl leading-none">×</button>
-          </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -239,75 +261,73 @@ export default function ContactForm() {
 
           {/* Conditional fields based on enquiry type */}
           {enquiryType === 'sell' && (
-            <>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="vehicleMake" className="block text-sm font-medium text-gray-700 mb-2">
-                    Vehicle Make
-                  </label>
-                  <input
-                      type="text"
-                      id="vehicleMake"
-                      name="vehicleMake"
-                      value={formData.vehicleMake}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                      placeholder="e.g., Toyota, Ford, BMW"
-                  />
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="vehicleMake" className="block text-sm font-medium text-gray-700 mb-2">
+                      Vehicle Make
+                    </label>
+                    <input
+                        type="text"
+                        id="vehicleMake"
+                        name="vehicleMake"
+                        value={formData.vehicleMake}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        placeholder="e.g., Toyota, Ford, BMW"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="vehicleModel" className="block text-sm font-medium text-gray-700 mb-2">
+                      Vehicle Model
+                    </label>
+                    <input
+                        type="text"
+                        id="vehicleModel"
+                        name="vehicleModel"
+                        value={formData.vehicleModel}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        placeholder="e.g., Camry, Ranger, X5"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <label htmlFor="vehicleModel" className="block text-sm font-medium text-gray-700 mb-2">
-                    Vehicle Model
-                  </label>
-                  <input
-                      type="text"
-                      id="vehicleModel"
-                      name="vehicleModel"
-                      value={formData.vehicleModel}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                      placeholder="e.g., Camry, Ranger, X5"
-                  />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="vehicleYear" className="block text-sm font-medium text-gray-700 mb-2">
+                      Vehicle Year
+                    </label>
+                    <input
+                        type="text"
+                        id="vehicleYear"
+                        name="vehicleYear"
+                        value={formData.vehicleYear}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        placeholder="e.g., 2020"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="vehicleCondition" className="block text-sm font-medium text-gray-700 mb-2">
+                      Vehicle Condition
+                    </label>
+                    <select
+                        id="vehicleCondition"
+                        name="vehicleCondition"
+                        value={formData.vehicleCondition}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    >
+                      <option value="">Select condition</option>
+                      <option value="excellent">Excellent</option>
+                      <option value="good">Good</option>
+                      <option value="fair">Fair</option>
+                      <option value="poor">Poor</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="vehicleYear" className="block text-sm font-medium text-gray-700 mb-2">
-                    Vehicle Year
-                  </label>
-                  <input
-                      type="text"
-                      id="vehicleYear"
-                      name="vehicleYear"
-                      value={formData.vehicleYear}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                      placeholder="e.g., 2020"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="vehicleCondition" className="block text-sm font-medium text-gray-700 mb-2">
-                    Vehicle Condition
-                  </label>
-                  <select
-                      id="vehicleCondition"
-                      name="vehicleCondition"
-                      value={formData.vehicleCondition}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                  >
-                    <option value="">Select condition</option>
-                    <option value="excellent">Excellent</option>
-                    <option value="good">Good</option>
-                    <option value="fair">Fair</option>
-                    <option value="poor">Poor</option>
-                  </select>
-                </div>
-              </div>
-            </>
+              </>
           )}
-
-
 
           <div>
             <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
