@@ -1,11 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { motion } from 'framer-motion'
 import { supabase } from '@/lib/supabase'
+import { Car } from '@/lib/supabase'
 
 const carSchema = z.object({
   make: z.string().min(1, 'Make is required'),
@@ -29,6 +30,66 @@ type CarFormData = z.infer<typeof carSchema>
 export default function AdminPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const [vehicles, setVehicles] = useState<Car[]>([])
+  const [selectedVehicle, setSelectedVehicle] = useState<string>('')
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [deleteStatus, setDeleteStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  
+  // Fetch vehicles from Supabase
+  useEffect(() => {
+    const fetchVehicles = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('cars')
+          .select('*')
+          .order('created_at', { ascending: false })
+        
+        if (error) {
+          console.error('Error fetching vehicles:', error)
+          return
+        }
+        
+        setVehicles(data || [])
+      } catch (error) {
+        console.error('Error fetching vehicles:', error)
+      }
+    }
+    
+    fetchVehicles()
+  }, [deleteStatus]) // Refetch when delete status changes
+
+  // Handle vehicle deletion
+  const handleDeleteVehicle = async () => {
+    if (!selectedVehicle) return;
+    
+    setIsDeleting(true);
+    setDeleteStatus('idle');
+    
+    try {
+      const vehicleId = parseInt(selectedVehicle);
+      const { error } = await supabase
+        .from('cars')
+        .delete()
+        .eq('id', vehicleId);
+      
+      if (error) {
+        console.error('Error deleting vehicle:', error);
+        setDeleteStatus('error');
+        throw error;
+      }
+      
+      setDeleteStatus('success');
+      setSelectedVehicle('');
+      
+      // Reset success message after 5 seconds
+      setTimeout(() => setDeleteStatus('idle'), 5000);
+    } catch (error) {
+      console.error('Error deleting vehicle:', error);
+      setDeleteStatus('error');
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   const {
     register,
@@ -78,6 +139,77 @@ export default function AdminPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Delete Vehicle Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white rounded-xl shadow-lg p-8 mb-8"
+        >
+          <h1 className="text-3xl font-bold text-gray-900 mb-6">Manage Vehicles</h1>
+          
+          {deleteStatus === 'success' && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg"
+            >
+              <div className="flex items-center">
+                <div className="text-green-600 mr-3">✓</div>
+                <div className="text-green-800">
+                  Vehicle deleted successfully!
+                </div>
+              </div>
+            </motion.div>
+          )}
+          
+          {deleteStatus === 'error' && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg"
+            >
+              <div className="flex items-center">
+                <div className="text-red-600 mr-3">✕</div>
+                <div className="text-red-800">
+                  There was an error deleting the vehicle. Please try again.
+                </div>
+              </div>
+            </motion.div>
+          )}
+          
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+            <div className="md:col-span-3">
+              <label htmlFor="vehicleSelect" className="block text-sm font-medium text-gray-700 mb-2">
+                Select Vehicle
+              </label>
+              <select
+                id="vehicleSelect"
+                value={selectedVehicle}
+                onChange={(e) => setSelectedVehicle(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value="">Select a vehicle to delete</option>
+                {vehicles.map((vehicle) => (
+                  <option key={vehicle.id} value={vehicle.id}>
+                    {vehicle.year} {vehicle.make} {vehicle.model} - {vehicle.stock_number}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="md:col-span-1">
+              <button
+                type="button"
+                onClick={handleDeleteVehicle}
+                disabled={!selectedVehicle || isDeleting}
+                className="w-full bg-red-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                {isDeleting ? 'Deleting...' : 'Delete Vehicle'}
+              </button>
+            </div>
+          </div>
+        </motion.div>
+        
+        {/* Add Vehicle Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
