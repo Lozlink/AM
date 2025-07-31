@@ -1,9 +1,26 @@
 'use client'
-
+import {Suspense} from 'react'
 import Header from '@/components/Header'
 import ContactForm from '@/components/ContactForm'
 import GoogleMap from '@/components/GoogleMap'
 import { motion } from 'framer-motion'
+
+function ContactFormFallback() {
+  return (
+      <div className="bg-white rounded-xl p-8 shadow-lg border border-gray-200">
+        <div className="animate-pulse">
+          <div className="h-8 bg-gray-200 rounded mb-6"></div>
+          <div className="space-y-4">
+            <div className="h-12 bg-gray-200 rounded"></div>
+            <div className="h-12 bg-gray-200 rounded"></div>
+            <div className="h-12 bg-gray-200 rounded"></div>
+            <div className="h-32 bg-gray-200 rounded"></div>
+            <div className="h-12 bg-gray-200 rounded"></div>
+          </div>
+        </div>
+      </div>
+  )
+}
 
 export default function ContactPage() {
   return (
@@ -31,7 +48,9 @@ export default function ContactPage() {
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Contact Form */}
             <div>
-              <ContactForm />
+              <Suspense fallback={<ContactFormFallback />}>
+                <ContactForm />
+              </Suspense>
             </div>
 
             {/* Contact Information */}
