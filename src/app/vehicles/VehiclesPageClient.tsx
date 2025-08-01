@@ -122,7 +122,7 @@ export default function VehiclesPageClient({ cars }: VehiclesPageClientProps) {
                 placeholder="Make, model, or year..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-700 focus:border-blue-700 text-gray-900 bg-white"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focuborder-emerald-600 focus:border-emerald-600 text-gray-900 bg-white"
               />
             </div>
 
@@ -134,7 +134,7 @@ export default function VehiclesPageClient({ cars }: VehiclesPageClientProps) {
               <select
                 value={selectedMake}
                 onChange={(e) => setSelectedMake(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-700 focus:border-blue-700 text-gray-900 bg-white"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focuborder-emerald-600 focus:border-emerald-600 text-gray-900 bg-white"
               >
                 <option value="">All Makes</option>
                 {makes.map(make => (
@@ -151,7 +151,7 @@ export default function VehiclesPageClient({ cars }: VehiclesPageClientProps) {
               <select
                 value={selectedCondition}
                 onChange={(e) => setSelectedCondition(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-700 focus:border-blue-700 text-gray-900 bg-white"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focuborder-emerald-600 focus:border-emerald-600 text-gray-900 bg-white"
               >
                 <option value="">All Conditions</option>
                 <option value="excellent">Excellent</option>
@@ -168,7 +168,7 @@ export default function VehiclesPageClient({ cars }: VehiclesPageClientProps) {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-700 focus:border-blue-700 text-gray-900 bg-white"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focuborder-emerald-600 focus:border-emerald-600 text-gray-900 bg-white"
               >
                 <option value="newest">Newest First</option>
                 <option value="price-low">Price: Low to High</option>
@@ -192,7 +192,7 @@ export default function VehiclesPageClient({ cars }: VehiclesPageClientProps) {
                 placeholder="Min price..."
                 value={priceRange.min}
                 onChange={(e) => setPriceRange(prev => ({ ...prev, min: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-700 focus:border-blue-700 text-gray-900 bg-white"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focuborder-emerald-600 focus:border-emerald-600 text-gray-900 bg-white"
               />
             </div>
             <div>
@@ -204,13 +204,13 @@ export default function VehiclesPageClient({ cars }: VehiclesPageClientProps) {
                 placeholder="Max price..."
                 value={priceRange.max}
                 onChange={(e) => setPriceRange(prev => ({ ...prev, max: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-700 focus:border-blue-700 text-gray-900 bg-white"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focuborder-emerald-600 focus:border-emerald-600 text-gray-900 bg-white"
               />
             </div>
             <div className="flex items-end">
               <button
                 onClick={clearFilters}
-                className="w-full px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-blue-800 transition-colors"
+                className="w-full px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-emerald-600 transition-colors"
               >
                 Clear Filters
               </button>
@@ -250,7 +250,7 @@ export default function VehiclesPageClient({ cars }: VehiclesPageClientProps) {
               </p>
               <button
                 onClick={clearFilters}
-                className="bg-gray-900 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-800 transition-colors"
+                className="bg-gray-900 text-white px-8 py-4 rounded-lg font-semibold hover:bg-emerald-600 transition-colors"
               >
                 Clear All Filters
               </button>
