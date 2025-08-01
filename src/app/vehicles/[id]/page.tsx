@@ -130,12 +130,12 @@ export default async function CarDetailPage({ params }: { params: Promise<{ id: 
                     <div className="text-3xl font-bold text-emerald-600">
                       {formatPrice(car.price)}
                     </div>
-                    <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                    <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
                         car.condition === 'excellent' ? 'bg-green-500 text-white' :
-                            car.condition === 'good' ? 'bg-gray-900 text-white' :
+                            car.condition === 'good' ? 'bg-emerald-600 text-white' :
                                 'bg-yellow-500 text-white'
-                    }`}>
-                    {car.condition.charAt(0).toUpperCase() + car.condition.slice(1)} Condition
+                      }`}>
+                        {car.condition.charAt(0).toUpperCase() + car.condition.slice(1)}
                   </span>
                   </div>
 
