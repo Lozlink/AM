@@ -64,21 +64,21 @@ export default function Home() {
                   icon: '💰',
                   title: 'Financing Options',
                   description: 'We offer tailored financing solutions to help you secure your next vehicle with competitive rates and flexible terms to suit your budget.',
-                  link: '/contact',
+                  link: '/contact?enquiry=financing',
                   ctaText: 'Get Financing Quote'
                 },
                 {
                   icon: '🛡️',
                   title: 'Warranty Coverage',
                   description: 'Drive with confidence knowing your vehicle is protected with our comprehensive warranty options for peace of mind on the road.',
-                  link: '/contact',
+                  link: '/contact?enquiry=warranty',
                   ctaText: 'Learn About Warranty'
                 },
                 {
                   icon: '🚚',
                   title: 'Interstate Transport',
                   description: 'No matter where you are in Australia, we can work at your convenience to arrange safe and reliable transport of your vehicle to your doorstep.',
-                  link: '/contact',
+                  link: '/contact?enquiry=transport',
                   ctaText: 'Get Transport Quote'
                 }
               ].map((feature, index) => (
@@ -91,7 +91,7 @@ export default function Home() {
                     <p className="text-white/85 mb-4 drop-shadow-sm">{feature.description}</p>
                     <Link
                         href={feature.link}
-                        className="inline-block bg-white/80 text-slate-900 px-4 py-2 rounded-lg font-medium hover:bg-white transition-colors shadow-lg backdrop-blur-sm"
+                        className="inline-block bg-white/80 text-slate-900 px-4 py-2 rounded-lg font-medium hover:bg-emerald-600 transition-colors shadow-lg backdrop-blur-sm"
                     >
                       {feature.ctaText}
                     </Link>
