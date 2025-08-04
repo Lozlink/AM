@@ -2,7 +2,7 @@
   "name": "car-dealership",
   "version": "0.1.0",
   "author": "Mark Mekhayl",
-  "license": "custom",
+  "license": "custom 1",
   "private": true,
   "scripts": {
     "dev": "dotenvx run -- next dev",
