@@ -2,6 +2,10 @@ import Header from '@/components/Header'
 import Hero from '@/components/Hero'
 import Link from 'next/link'
 import type { Metadata } from 'next'
+import {supabase} from "@/lib/supabase";
+import { Car } from '@/lib/supabase'
+import CarCardStatic from '@/components/CarCardStatic'
+
 
 export const metadata: Metadata = {
   title: "AM Auto Group - Quality Used Cars Australia | Nationwide Vehicle Sourcing",
@@ -15,7 +19,29 @@ export const metadata: Metadata = {
   },
 }
 
-export default function Home() {
+async function getFeaturedCars(): Promise<Car[]> {
+  try {
+    const { data, error } = await supabase
+        .from('cars')
+        .select('*')
+        .limit(3)
+
+    if (error) {
+      console.error('Error fetching featured cars:', error)
+      return []
+    }
+
+    return data || []
+  } catch (error) {
+    console.error('Error in getFeaturedCars:', error)
+    return []
+  }
+}
+
+
+export default async function Home() {
+  const featuredCars = await getFeaturedCars()
+
   return (
       <div className="min-h-screen bg-slate-50">
         <Header />
@@ -105,23 +131,23 @@ export default function Home() {
 
 
 
-        {/* Quick Contact CTA */}
-        <section className="py-16 bg-slate-100">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">
-              Need Immediate Assistance?
-            </h2>
-            <p className="text-lg text-slate-600 mb-8">
-              Call us directly for quick answers to your questions
-            </p>
-            <a
-                href="tel:0402699999"
-                className="inline-block bg-emerald-500 text-white px-8 py-4 rounded-lg text-lg font-bold hover:bg-emerald-600 transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
-            >
-              📞 Call 0402 699 999
-            </a>
-          </div>
-        </section>
+        {/*/!* Quick Contact CTA *!/*/}
+        {/*<section className="py-16 bg-slate-100">*/}
+        {/*  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">*/}
+        {/*    <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">*/}
+        {/*      Need Immediate Assistance?*/}
+        {/*    </h2>*/}
+        {/*    <p className="text-lg text-slate-600 mb-8">*/}
+        {/*      Call us directly for quick answers to your questions*/}
+        {/*    </p>*/}
+        {/*    <a*/}
+        {/*        href="tel:0402699999"*/}
+        {/*        className="inline-block bg-emerald-500 text-white px-8 py-4 rounded-lg text-lg font-bold hover:bg-emerald-600 transition-all duration-300 transform hover:scale-105 hover:shadow-xl"*/}
+        {/*    >*/}
+        {/*      📞 Call 0402 699 999*/}
+        {/*    </a>*/}
+        {/*  </div>*/}
+        {/*</section>*/}
 
         {/* How It Works Section */}
         {/*<section className="py-12 bg-slate-50">*/}
@@ -183,39 +209,90 @@ export default function Home() {
         {/*</section>*/}
 
         {/* CTA Section */}
-        <section className="py-20 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 text-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Ready to Find Your Dream Car?
-            </h2>
-            <p className="text-xl mb-8 max-w-2xl mx-auto opacity-90">
-              Experience trust, excellence, and satisfaction. Complete the form today to find your next car!
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+        {/*<section className="py-20 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 text-white">*/}
+        {/*  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">*/}
+        {/*    <h2 className="text-3xl md:text-4xl font-bold mb-4">*/}
+        {/*      Ready to Find Your Dream Car?*/}
+        {/*    </h2>*/}
+        {/*    <p className="text-xl mb-8 max-w-2xl mx-auto opacity-90">*/}
+        {/*      Experience trust, excellence, and satisfaction. Complete the form today to find your next car!*/}
+        {/*    </p>*/}
+        {/*    <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">*/}
+        {/*      <Link*/}
+        {/*          href="/vehicles"*/}
+        {/*          className="bg-white text-slate-900 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-slate-100 transition-colors shadow-lg"*/}
+        {/*      >*/}
+        {/*        Browse Vehicles*/}
+        {/*      </Link>*/}
+        {/*      <Link*/}
+        {/*          href="/contact"*/}
+        {/*          className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-slate-900 transition-colors"*/}
+        {/*      >*/}
+        {/*        Get Quote*/}
+        {/*      </Link>*/}
+        {/*    </div>*/}
+        {/*    <div className="border-t border-white border-opacity-20 pt-8">*/}
+        {/*      <p className="text-lg mb-4">Or call us directly for immediate assistance:</p>*/}
+        {/*      <a*/}
+        {/*          href="tel:0402699999"*/}
+        {/*          className="inline-block bg-emerald-500 text-white px-8 py-4 rounded-lg text-lg font-bold hover:bg-emerald-600 transition-all duration-300 transform hover:scale-105 hover:shadow-xl"*/}
+        {/*      >*/}
+        {/*        📞 Call 0402 699 999*/}
+        {/*      </a>*/}
+        {/*    </div>*/}
+        {/*  </div>*/}
+        {/*</section>*/}
+
+        {/* Featured Vehicles Section */}
+        <section className="py-12 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">
+                Featured Vehicles
+              </h2>
+              <p className="text-lg text-slate-600 mb-6">
+                Discover some of our premium quality vehicles available now
+              </p>
+            </div>
+
+            {featuredCars.length > 0 ? (
+                <div className="grid sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-8 mb-8">
+                  {featuredCars.map((car) => (
+                      <CarCardStatic key={car.id} car={car} hideContentOnMd={true} />
+                  ))}
+                </div>
+            ) : (
+
+
+                <div className="text-center py-8">
+                  <div className="text-6xl mb-4">🚗</div>
+                  <h3 className="text-xl font-semibold text-slate-900 mb-2">
+                    New Inventory Coming Soon
+                  </h3>
+                  <p className="text-slate-600 mb-6">
+                    We're currently updating our featured vehicles. Check back soon for our latest arrivals!
+                  </p>
+                  <Link
+                      href="/contact"
+                      className="bg-emerald-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-emerald-600 transition-colors"
+                  >
+                    Contact Us for Availability
+                  </Link>
+                </div>
+            )}
+
+            <div className="text-center">
               <Link
                   href="/vehicles"
-                  className="bg-white text-slate-900 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-slate-100 transition-colors shadow-lg"
-              >
-                Browse Vehicles
-              </Link>
-              <Link
-                  href="/contact"
-                  className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-slate-900 transition-colors"
-              >
-                Get Quote
-              </Link>
-            </div>
-            <div className="border-t border-white border-opacity-20 pt-8">
-              <p className="text-lg mb-4">Or call us directly for immediate assistance:</p>
-              <a
-                  href="tel:0402699999"
                   className="inline-block bg-emerald-500 text-white px-8 py-4 rounded-lg text-lg font-bold hover:bg-emerald-600 transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
               >
-                📞 Call 0402 699 999
-              </a>
+                View All Vehicles →
+              </Link>
             </div>
           </div>
         </section>
+
+
       </div>
   )
 }

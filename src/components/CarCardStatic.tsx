@@ -6,9 +6,10 @@ import { useEffect, useRef } from 'react'
 
 interface CarCardStaticProps {
   car: Car
+  hideContentOnMd?: boolean
 }
 
-export default function CarCardStatic({ car }: CarCardStaticProps) {
+export default function CarCardStatic({ car, hideContentOnMd = false }: CarCardStaticProps) {
   const cardRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -16,7 +17,7 @@ export default function CarCardStatic({ car }: CarCardStaticProps) {
     if (cardRef.current) {
       cardRef.current.style.opacity = '0'
       cardRef.current.style.transform = 'translateY(20px)'
-      
+
       setTimeout(() => {
         if (cardRef.current) {
           cardRef.current.style.transition = 'opacity 0.6s ease, transform 0.6s ease'
@@ -39,16 +40,21 @@ export default function CarCardStatic({ car }: CarCardStaticProps) {
     return new Intl.NumberFormat('en-AU').format(mileage)
   }
 
+  const getContentClasses = () => {
+    if (hideContentOnMd) {
+      return "p-4 flex flex-col flex-grow max-sm:flex min-[640px]:hidden min-[1180px]:hidden"
+    }
+    return "p-4 flex flex-col flex-grow"
+  }
+
   return (
       <div
           ref={cardRef}
           className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col"
       >
         {/* Image */}
-        <Link
-            href={`/vehicles/${car.id}`}
-        >
-          <div className="aspect-video bg-gradient-to-br from-gray-200 to-gray-300 relative overflow-hidden">
+        <Link href={`/vehicles/${car.id}`}>
+          <div className="aspect-[4/3] bg-gradient-to-br from-gray-200 to-gray-300 relative overflow-hidden">
             {car.images && car.images.length > 0 ? (
                 <img
                     src={car.images[0]}
@@ -57,100 +63,87 @@ export default function CarCardStatic({ car }: CarCardStaticProps) {
                 />
             ) : (
                 <div className="w-full h-full flex items-center justify-center">
-                  <div className="text-6xl">🚗</div>
+                  <div className="text-4xl">🚗</div>
                 </div>
             )}
 
-
             {/* Condition Badge */}
-            <div className="absolute top-3 right-3">
-          <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
-              car.condition === 'excellent' ? 'bg-green-500 text-white' :
-                  car.condition === 'good' ? 'bg-emerald-600 text-white' :
-                      'bg-yellow-500 text-white'
-          }`}>
-            {car.condition.charAt(0).toUpperCase() + car.condition.slice(1)}
-          </span>
+            <div className="absolute top-2 right-2">
+              <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                  car.condition === 'excellent' ? 'bg-green-500 text-white' :
+                      car.condition === 'good' ? 'bg-emerald-600 text-white' :
+                          'bg-yellow-500 text-white'
+              }`}>
+                {car.condition.charAt(0).toUpperCase() + car.condition.slice(1)}
+              </span>
             </div>
           </div>
         </Link>
 
         {/* Content */}
-        <div className="p-6 flex flex-col flex-grow">
-          {/* Title */}
-          <Link
-              href={`/vehicles/${car.id}`}
-          >
-            <h3 className="text-xl font-bold text-gray-900 mb-2">
+        <div className={getContentClasses()}>
+          {/* Title & Price */}
+          <Link href={`/vehicles/${car.id}`}>
+            <h3 className="text-lg font-bold text-gray-900 mb-1">
               {car.year} {car.make} {car.model}
             </h3>
           </Link>
-
-          {/* Price */}
-          <div className="text-2xl font-bold text-emerald-600 mb-4">
+          <div className="text-xl font-bold text-emerald-600 mb-3">
             {formatPrice(car.price)}
           </div>
 
-          {/* Key Details */}
-          <div className="grid grid-cols-2 gap-4 mb-4 text-sm text-gray-600">
-            <div>
-              <span className="font-semibold">Mileage:</span> {formatMileage(car.mileage)} km
+          {/* Compact Details */}
+          <div className="text-sm text-gray-600 mb-3 space-y-1">
+            <div className="flex justify-between">
+              <span>{formatMileage(car.mileage)} km</span>
+              <span>{car.transmission}</span>
             </div>
-            <div>
-              <span className="font-semibold">Transmission:</span> {car.transmission}
-            </div>
-            <div>
-              <span className="font-semibold">Fuel:</span> {car.fuel_type}
-            </div>
-            <div>
-              <span className="font-semibold">Color:</span> {car.color}
+            <div className="flex justify-between">
+              <span>{car.fuel_type}</span>
+              <span>{car.color}</span>
             </div>
           </div>
 
-          {/* Features */}
+          {/* Features (compact) */}
           {car.features && car.features.length > 0 && (
-              <div className="mb-4">
-                <div className="text-sm font-semibold text-gray-700 mb-2">Features:</div>
+              <div className="mb-3">
                 <div className="flex flex-wrap gap-1">
-                  {car.features.slice(0, 3).map((feature, index) => (
+                  {car.features.slice(0, 2).map((feature, index) => (
                       <span
                           key={index}
                           className="px-2 py-1 bg-blue-100 text-emerald-600 text-xs rounded-full"
                       >
-                  {feature}
-                </span>
+                        {feature}
+                      </span>
                   ))}
-                  {car.features.length > 3 && (
+                  {car.features.length > 2 && (
                       <span className="px-2 py-1 bg-blue-100 text-emerald-600 text-xs rounded-full">
-                  +{car.features.length - 3} more
-                </span>
+                        +{car.features.length - 2} more
+                      </span>
                   )}
                 </div>
               </div>
           )}
 
-          {/* Stock Number */}
-          <div className="text-xs text-gray-500 mb-4">
-            Stock #: {car.stock_number}
-          </div>
-
-          {/* Spacer to push button to bottom */}
+          {/* Spacer */}
           <div className="flex-grow"></div>
 
-          {/* CTA Button */}
-          <Link
-              href="/contact?enquiry=general"
-              className="w-full bg-gray-900 text-white mb-4 py-3 px-4 rounded-lg font-semibold hover:bg-emerald-600 transition-colors text-center block"
-          >
-            Enquire now!
-          </Link>
-          <Link
-              href="tel:0402699999"
-              className="w-full text-gray-900 bg-white border-2 border-gray-900 py-2 px-4 rounded-lg font-semibold hover:bg-emerald-600 transition-colors text-center block"
-          >
-            Call now!
-          </Link>
+          {/* Compact Buttons */}
+          <div className="space-y-2">
+            <Link
+                href="/contact?enquiry=general"
+                className="w-full bg-gray-900 text-white py-2 px-4 rounded-lg font-semibold hover:bg-emerald-600 transition-colors text-center block text-sm"
+            >
+              Enquire Now
+            </Link>
+            <Link
+                href="tel:0402699999"
+                className="w-full text-gray-900 bg-white border border-gray-300 py-2 px-4 rounded-lg font-semibold hover:bg-gray-50 transition-colors text-center block text-sm"
+            >
+              Call Now
+            </Link>
+          </div>
         </div>
       </div>
   )
-} 
+}

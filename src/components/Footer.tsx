@@ -9,7 +9,7 @@ export default function Footer() {
             {/* Company Info */}
             <div className="flex-1 text-center md:text-left">
               <div className="flex md:justify-start justify-center">
-                <Logo size="3xl" />
+                <Logo size="3xl" className="my" />
               </div>
               <p className="text-gray-300 mb-6 max-w-md mx-auto md:mx-0">
                 Your trusted partner in finding quality used vehicles across Australia.
