@@ -26,23 +26,23 @@ export default function Home() {
           {/* Background image and overlay */}
           <div className="absolute inset-0 w-full h-full z-0">
             <img
-              src="/car-bg.jpg"
-              alt="Car dealership background"
-              className="w-full h-full object-cover object-center blur-sm scale-105"
-              style={{ filter: 'brightness(0.5) blur(4px)' }}
+                src="/welcomeplacerholder.jpg"
+                alt="Car dealership background"
+                className="w-full h-full object-cover object-center blur-sm scale-105"
+                style={{ filter: 'brightness(0.4) blur(4px)' }}
             />
-            <div className="absolute inset-0 bg-black/40" />
+            <div className="absolute inset-0 bg-black/30" />
           </div>
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
             <div className="flex flex-col items-center mb-16">
               <div className="mb-4">
                 <span className="inline-block w-12 h-1 rounded bg-emerald-400"></span>
               </div>
-              <div className="bg-white bg-opacity-95 rounded-xl shadow-lg p-8 w-full max-w-4xl text-center">
-                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              <div className="bg-gradient-to-b from-white/40 to-transparent backdrop-blur-sm p-8 w-full max-w-4xl text-center rounded-xl drop-shadow-lg">
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-lg ">
                   Welcome to AM Auto Group
                 </h2>
-                <div className="text-lg text-slate-600 space-y-4">
+                <div className="text-lg text-white/90 space-y-4 drop-shadow-md">
                   <p>
                     Located in Wetherill Park, AM Auto Group is your trusted destination for buying and selling quality vehicles across Australia. Whether you're looking for a compact car, family SUV, or a high-performance sports car, we offer a wide range of pre-owned vehicles to suit every lifestyle and budget.
                   </p>
@@ -84,14 +84,14 @@ export default function Home() {
               ].map((feature, index) => (
                   <div
                       key={index}
-                      className="text-center p-8 rounded-xl bg-white shadow-md transition-all hover:shadow-lg"
+                      className="text-center rounded-xl p-8 bg-gradient-to-br from-white/25 via-white/15 to-transparent backdrop-blur-sm transition-all hover:from-white/35 hover:via-white/25 hover:to-white/10"
                   >
-                    <div className="text-4xl mb-4">{feature.icon}</div>
-                    <h3 className="text-xl font-semibold text-slate-900 mb-3">{feature.title}</h3>
-                    <p className="text-slate-600 mb-4">{feature.description}</p>
-                    <Link 
-                      href={feature.link} 
-                      className="inline-block bg-slate-900 text-white px-4 py-2 rounded-lg font-medium hover:bg-emerald-600 transition-colors"
+                    <div className="text-4xl mb-4 drop-shadow-lg">{feature.icon}</div>
+                    <h3 className="text-xl font-semibold text-white mb-3 drop-shadow-md">{feature.title}</h3>
+                    <p className="text-white/85 mb-4 drop-shadow-sm">{feature.description}</p>
+                    <Link
+                        href={feature.link}
+                        className="inline-block bg-white/80 text-slate-900 px-4 py-2 rounded-lg font-medium hover:bg-white transition-colors shadow-lg backdrop-blur-sm"
                     >
                       {feature.ctaText}
                     </Link>
@@ -100,6 +100,8 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+
 
 
 
