@@ -20,9 +20,9 @@ export default function Footer() {
                 <div>📧 info@amautogroup.com</div>
                 <div>🌏 We operate across all of Australia</div>
               </div>
-              
+
               <div className=" space-y-2 text-gray-300">
-                
+
                 <div>📍 12/1017 Canley Vale road, Wetherill Park, 2164</div>
                 <div>🕒 Operating hours: 9am-5:30pm Mon-Sunday (Viewing via Appointments)</div>
               </div>
@@ -118,11 +118,11 @@ export default function Footer() {
           </div>
 
           {/* Bottom Bar */}
-          <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+          <div className="border-t border-gray-800 mt-8 py-5 flex flex-col md:flex-row justify-between items-center">
             <div className="text-gray-400 text-sm mb-4 md:mb-0 text-center md:text-left w-full md:w-auto">
               © 2023 - 2025 AM Auto Group, ABN: 87 689 164 832
             </div>
-            <div className="text-gray-400 text-sm mb-4 md:mb-0 text-center md:text-left w-full md:w-auto">
+            <div className="text-gray-400 text-sm mb-4 md:mb-0 text-center md:text-left w-full md:w-auto xl: mr-25 ">
                 All rights reserved.
             </div>
             <div className="text-gray-400 text-sm text-center md:text-left w-full md:w-auto">

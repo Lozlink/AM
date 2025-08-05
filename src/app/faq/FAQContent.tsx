@@ -172,7 +172,8 @@ export default function FAQContent() {
                     <div>
                         <Link
                             href="/contact"
-                            className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+                            className="inline-block bg-emerald-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-emerald-700
+                             transition-colors"
                         >
                             Contact Us
                         </Link>
