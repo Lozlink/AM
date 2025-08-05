@@ -2,7 +2,7 @@
 import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = 'https://amauto1.vercel.app'
+    const baseUrl = 'https://www.amautogroup.com.au'
 
     return [
         {
