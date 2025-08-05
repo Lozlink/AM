@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: '/admin/',
     },
-    sitemap: 'https://amautogroup.com.au/sitemap.ts',
+    sitemap: 'https://www.amautogroup.com.au/sitemap.xml',
   }
 }
