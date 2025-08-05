@@ -15,58 +15,48 @@ interface UppyUploaderProps {
   allowedFileTypes?: string[]
 }
 
-export default function UppyUploaderBasic({
-                                            onUploadComplete,
-                                            maxFiles = 10,
-                                            allowedFileTypes = ['image/*']
-                                          }: UppyUploaderProps) {
+export default function UppyUploader({
+                                       onUploadComplete,
+                                       maxFiles = 10,
+                                       allowedFileTypes = ['image/*']
+                                     }: UppyUploaderProps) {
+  const uppyRef = useRef<Uppy | null>(null)
   const dashboardRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!dashboardRef.current) return
 
-    // @ts-ignore - Skip TypeScript checking for Uppy generics
     const uppy = new Uppy({
-      debug: false,
-      autoProceed: false,
       restrictions: {
-        maxFileSize: 10 * 1024 * 1024,
         maxNumberOfFiles: maxFiles,
-        allowedFileTypes: allowedFileTypes,
+        allowedFileTypes
       }
     })
+        .use(Dashboard, {
+          target: dashboardRef.current,
+          inline: true,
+          height: 400,
+          showProgressDetails: true,
+          hideUploadButton: false
+        })
+        .use(XHRUpload, {
+          endpoint: '/api/upload',
+          fieldName: 'files',
+          formData: true
+        })
 
-    uppy.use(Dashboard, {
-      target: dashboardRef.current,
-      inline: true,
-      width: '100%',
-      height: 400,
-      proudlyDisplayPoweredByUppy: false,
-      note: 'Images only, up to 10MB each',
-      theme: 'light'
-    })
-
-    uppy.use(XHRUpload, {
-      endpoint: '/api/upload',
-      method: 'POST',
-      formData: true,
-      fieldName: 'files'
-    })
-
-    uppy.on('complete', (result: any) => {
-      if (onUploadComplete && result.successful) {
+    uppy.on('complete', (result) => {
+      if (result.successful && onUploadComplete) {
         onUploadComplete(result.successful)
       }
     })
 
+    uppyRef.current = uppy
+
     return () => {
       uppy.destroy()
     }
-  }, [maxFiles, allowedFileTypes, onUploadComplete])
+  }, [maxFiles, allowedFileTypes])
 
-  return (
-      <div className="border-2 border-dashed border-gray-300 rounded-lg">
-        <div ref={dashboardRef} />
-      </div>
-  )
+  return <div ref={dashboardRef} />
 }
