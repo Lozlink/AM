@@ -18,12 +18,12 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "AM Auto Group - Quality Used Cars Australia",
-  description: "Find your dream car with AM Auto Group. We source quality used vehicles nationwide across Australia. Trust, excellence, and satisfaction guaranteed.",
+  description: "Find your dream car with AM Auto Group. We provide quality used vehicles nationwide across Australia with personalized service, trust, and transparency. Browse our inventory or get a custom quote today.",
   keywords: "used cars, car dealership, vehicle sourcing, Australia, quality cars, car buying",
   authors: [{ name: "AM Auto Group" }],
   openGraph: {
     title: "AM Auto Group - Quality Used Cars Australia",
-    description: "Find your dream car with AM Auto Group. We source quality used vehicles nationwide across Australia.",
+    description: "Find your dream car with AM Auto Group. We provide quality used vehicles nationwide across Australia with personalized service, trust, and transparency. Browse our inventory or get a custom quote today..",
     type: "website",
     locale: "en_AU",
   },

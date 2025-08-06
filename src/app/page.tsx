@@ -8,12 +8,12 @@ import CarCardStatic from '@/components/CarCardStatic'
 
 
 export const metadata: Metadata = {
-  title: "AM Auto Group - Quality Used Cars Australia | Nationwide Vehicle Sourcing",
-  description: "Find your dream car with AM Auto Group. We source quality used vehicles nationwide across Australia with personalized service, trust, and transparency. Browse our inventory or get a custom quote today.",
+  title: "AM Auto Group - Quality Used Cars Australia ",
+  description: "Find your dream car with AM Auto Group. We provide quality used vehicles nationwide across Australia with personalized service, trust, and transparency. Browse our inventory or get a custom quote today.",
   keywords: "used cars Australia, car dealership, vehicle sourcing, quality cars, car buying, nationwide sourcing, personalized service",
   openGraph: {
     title: "AM Auto Group - Quality Used Cars Australia",
-    description: "Find your dream car with AM Auto Group. We source quality used vehicles nationwide across Australia with personalized service, trust, and transparency.",
+    description: "Find your dream car with AM Auto Group. We provide quality used vehicles nationwide across Australia with personalized service, trust, and transparency. Browse our inventory or get a custom quote today.",
     type: "website",
     locale: "en_AU",
   },
