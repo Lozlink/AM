@@ -39,7 +39,6 @@ export default function RootLayout({
   return (
     <html lang="en">
     <head>
-      <title>AM Auto Group</title>
       {GTM_ID && (
           <Script id="gtm-head" strategy="afterInteractive">
             {`
