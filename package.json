@@ -32,6 +32,7 @@
     "emailjs": "^4.0.3",
     "framer-motion": "^12.18.1",
     "next": "15.3.3",
+    "puppeteer": "^24.16.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.60.0",
