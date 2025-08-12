@@ -122,7 +122,7 @@ export default function Footer() {
             <div className="text-gray-400 text-sm mb-4 md:mb-0 text-center md:text-left w-full md:w-auto">
               © 2023 - 2025 AM Auto Group, ABN: 87 689 164 832
             </div>
-            <div className="text-gray-400 text-sm mb-4 md:mb-0 text-center md:text-left w-full md:w-auto xl: mr-25 ">
+            <div className="text-gray-400 text-sm mb-4 md:mb-0 text-center md:text-left w-full md:w-auto md:mr-25">
                 All rights reserved.
             </div>
             <div className="text-gray-400 text-sm text-center md:text-left w-full md:w-auto">
