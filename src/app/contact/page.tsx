@@ -23,6 +23,7 @@ function ContactFormFallback() {
 }
 
 export default function ContactPage() {
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -102,7 +103,8 @@ export default function ContactPage() {
                   
                   <div className="mt-6">
                     <h3 className="font-semibold text-gray-900 mb-3">Find Us on the Map</h3>
-                    <GoogleMap 
+                    <GoogleMap
+
                       address="12/1017 Canley Vale road, Wetherill Park, 2164" 
                       height="300px"
                     />

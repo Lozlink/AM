@@ -1,4 +1,21 @@
 @import "tailwindcss";
+.uppy-Dashboard {
+  --uppy-c-primary: #10b981; /* emerald-500 to match your theme */
+  --uppy-c-primary-dark: #059669; /* emerald-600 */
+}
+
+.uppy-Dashboard-inner {
+  background-color: #f9fafb;
+}
+
+.uppy-Dashboard-AddFiles {
+  border-color: #d1d5db;
+}
+
+
+.uppy-Dashboard-AddFiles:hover {
+  border-color: #10b981;
+}
 
 :root {
   --background: #fefffe;

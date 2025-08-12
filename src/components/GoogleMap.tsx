@@ -21,10 +21,9 @@ export default function GoogleMap({
     const [geocodeError, setGeocodeError] = useState<string | null>(null)
 
     // Get API key with fallback
-    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''
 
     const { isLoaded, loadError } = useLoadScript({
-        googleMapsApiKey: apiKey,
+        googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
         libraries,
     })
 
@@ -35,7 +34,7 @@ export default function GoogleMap({
     }), [])
 
     useEffect(() => {
-        if (!isLoaded || !window.google || !apiKey) return
+        if (!isLoaded || !window.google) return
 
         const geocoder = new window.google.maps.Geocoder()
 
@@ -52,10 +51,10 @@ export default function GoogleMap({
                 console.error('Geocode error:', status)
             }
         })
-    }, [address, isLoaded, apiKey])
+    }, [address, isLoaded])
 
     // Show error if no API key
-    if (!apiKey) {
+    if (!isLoaded) {
         return (
             <div
                 style={{ height, width }}

@@ -1,8 +1,7 @@
-
 import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = 'https://amauto1.vercel.app'
+    const baseUrl = 'https://www.amautogroup.com.au/'
 
     return [
         {
@@ -12,37 +11,37 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 1,
         },
         {
-            url: `${baseUrl}/vehicles`,
+            url: `${baseUrl}vehicles`,
             lastModified: new Date(),
             changeFrequency: 'daily',
             priority: 0.9,
         },
         {
-            url: `${baseUrl}/valuation`,
+            url: `${baseUrl}valuation`,
             lastModified: new Date(),
             changeFrequency: 'weekly',
             priority: 0.8,
         },
         {
-            url: `${baseUrl}/about`,
+            url: `${baseUrl}about`,
             lastModified: new Date(),
             changeFrequency: 'monthly',
             priority: 0.7,
         },
         {
-            url: `${baseUrl}/contact`,
+            url: `${baseUrl}contact`,
             lastModified: new Date(),
             changeFrequency: 'monthly',
             priority: 0.7,
         },
         {
-            url: `${baseUrl}/faq`,
+            url: `${baseUrl}faq`,
             lastModified: new Date(),
             changeFrequency: 'monthly',
             priority: 0.6,
         },
         {
-            url: `${baseUrl}/privacy`,
+            url: `${baseUrl}privacy`,
             lastModified: new Date(),
             changeFrequency: 'yearly',
             priority: 0.3,

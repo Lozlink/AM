@@ -21,19 +21,30 @@ export default function AboutContent() {
                 </div>
             </section>
 
-            {/* Our Story */}
-            <section className="py-20 bg-white">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Combined Our Story and Our Values with shared background */}
+            <section className="py-20 relative overflow-hidden">
+                <div className="absolute inset-0 w-full h-full z-0">
+                    <img
+                        src="/welcomeplacerholder.jpg"
+                        alt="Car dealership background"
+                        className="w-full h-full object-cover object-center blur-sm scale-105"
+                        style={{ filter: 'brightness(0.4) blur(4px)' }}
+                    />
+                    <div className="absolute inset-0 bg-black/30" />
+                </div>
+
+                {/* Our Story */}
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 z-10 relative mb-20">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                         className="text-center mb-16"
                     >
-                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
                             Our Story
                         </h2>
-                        <p className="text-xl text-gray-600 leading-relaxed">
+                        <p className="text-xl text-gray-200 leading-relaxed">
                             AM Auto Group was founded with a simple mission: to revolutionize the car buying experience
                             by putting customers first. We understand that finding the right vehicle can be overwhelming,
                             which is why we&apos;ve built a service that takes the stress out of car shopping.
@@ -44,7 +55,7 @@ export default function AboutContent() {
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.2 }}
-                        className="prose prose-lg max-w-none text-gray-700"
+                        className="prose prose-lg max-w-none text-gray-200"
                     >
                         <p>
                             Embarking on the journey of providing our exceptional service is no easy feat, but we thrive
@@ -68,21 +79,19 @@ export default function AboutContent() {
                         </p>
                     </motion.div>
                 </div>
-            </section>
 
-            {/* Our Values */}
-            <section className="py-20 bg-gray-50">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                {/* Our Values */}
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 relative">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                         className="text-center mb-16"
                     >
-                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
                             Our Values
                         </h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                        <p className="text-xl text-gray-200 max-w-3xl mx-auto">
                             These core principles guide everything we do and ensure we deliver the best possible experience for our clients.
                         </p>
                     </motion.div>
@@ -110,7 +119,7 @@ export default function AboutContent() {
                                 initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.8, delay: index * 0.2 }}
-                                className="bg-blue-100 p-8 rounded-xl shadow-lg text-center border border-blue-200"
+                                className="bg-white/90 backdrop-blur-sm p-8 rounded-xl shadow-lg text-center border border-blue-200"
                             >
                                 <div className="text-4xl mb-4">{value.icon}</div>
                                 <h3 className="text-xl font-semibold text-gray-900 mb-3">{value.title}</h3>
@@ -122,7 +131,7 @@ export default function AboutContent() {
             </section>
 
             {/* Stats */}
-            <section className="py-20 bg-gray-800 text-white">
+            <section className="py-20 bg-gray-900 text-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -197,13 +206,13 @@ export default function AboutContent() {
                     >
                         <Link
                             href="/vehicles"
-                            className="bg-white text-gray-900 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+                            className=" border-2 border-emerald-700 text-emerald-700 px-8 py-4 rounded-lg font-semibold hover:bg-emerald-600 hover:text-white transition-colors"
                         >
                             Browse Vehicles
                         </Link>
                         <Link
                             href="/contact"
-                            className="border-2 border-blue-700 text-blue-700 px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 hover:text-white transition-colors"
+                            className= "border-2 border-emerald-700 text-emerald-700 px-8 py-4 rounded-lg font-semibold hover:bg-emerald-600 hover:text-white transition-colors"
                         >
                             Get Started
                         </Link>

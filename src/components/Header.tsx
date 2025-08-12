@@ -9,10 +9,10 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
-      <header className="bg-slate-900 shadow-lg sticky top-0 z-50 border-b border-slate-700">
+      <header className="bg-slate-900 shadow-lg sticky top-0 z-1001 border-b border-slate-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-24">
-            {/* Logo - Give it more space */}
+
             <div className="flex-shrink-0">
               <Link href="/" className="block">
                 <motion.div
@@ -26,7 +26,7 @@ export default function Header() {
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex space-x-6">
+            <nav className="hidden lg:flex space-x-6">
               <Link href="/" className="text-slate-300 hover:text-emerald-400 transition-colors font-medium">
                 Home
               </Link>
@@ -46,7 +46,7 @@ export default function Header() {
             </nav>
 
             {/* CTA Button */}
-            <div className="hidden md:block flex-shrink-0">
+            <div className="hidden sm:block flex-shrink-0">
               <a
                   href="tel:0402699999"
                   className="bg-emerald-500 text-white px-6 py-2 rounded-lg hover:bg-emerald-600 transition-colors font-semibold shadow-lg flex items-center gap-2"
@@ -61,7 +61,7 @@ export default function Header() {
             {/* Mobile menu button */}
             <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="md:hidden p-2 rounded-md text-slate-300 hover:text-emerald-400 flex-shrink-0"
+                className="lg:hidden p-2 rounded-md text-slate-300 hover:text-emerald-400 flex-shrink-0"
             >
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 {isMenuOpen ? (
@@ -79,7 +79,7 @@ export default function Header() {
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  className="md:hidden"
+                  className="lg:hidden"
               >
                 <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-slate-900 border-t border-slate-700">
                   <Link href="/" className="block px-3 py-2 text-slate-300 hover:text-emerald-400">

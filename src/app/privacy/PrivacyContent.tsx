@@ -165,7 +165,7 @@ export default function PrivacyContent() {
                                 </p>
                                 <div className="bg-gray-50 p-6 rounded-lg">
                                     <p className="text-gray-600 mb-2"><strong>AM Auto Group</strong></p>
-                                    <p className="text-gray-600 mb-2">Email: <a href="mailto:info@amautogroup.com" className="text-blue-600 hover:underline">info@amautogroup.com</a></p>
+                                    <p className="text-gray-600 mb-2">Email: <a href="mailto:info@amautogroup.com.au" className="text-blue-600 hover:underline">info@amautogroup.com</a></p>
                                     <p className="text-gray-600 mb-2">Phone: <a href="tel:0492858699" className="text-blue-600 hover:underline">0492 858 699</a></p>
                                     <p className="text-gray-600">Address: 12/1017 Canley Vale road, Wetherill Park, 2164</p>
                                 </div>

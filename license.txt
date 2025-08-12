@@ -1,0 +1,11 @@
+Copyright © 2025 Mark Mekhayl
+
+Permission is hereby granted to the Client  to use, modify, and deploy this software solely for internal business purposes.
+
+Redistribution, sublicensing, reselling, or claiming authorship of the original code or its substantial components is strictly prohibited without the prior written consent of the author (Mark Mekhayl).
+
+This software is provided "as is", without warranty of any kind, express or implied. Under no circumstances shall the author be liable for any claim, damages, or other liability arising from the use of this software.
+
+All original work remains the intellectual property of Mark Mekhayl. Attribution must be preserved in all versions, including modified copies, unless otherwise agreed in writing.
+
+Use of this software implies agreement to the above terms.
