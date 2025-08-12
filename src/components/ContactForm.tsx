@@ -271,7 +271,7 @@ export default function ContactForm() {
                         type="text"
                         id="vehicleMake"
                         name="vehicleMake"
-                        value={formData.vehicleMake}
+                        // value={formData.vehicleMake}
                         onChange={handleChange}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                         placeholder="e.g., Toyota, Ford, BMW"
@@ -285,7 +285,7 @@ export default function ContactForm() {
                         type="text"
                         id="vehicleModel"
                         name="vehicleModel"
-                        value={formData.vehicleModel}
+                        // value={formData.vehicleModel}
                         onChange={handleChange}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                         placeholder="e.g., Camry, Ranger, X5"
@@ -301,7 +301,7 @@ export default function ContactForm() {
                         type="text"
                         id="vehicleYear"
                         name="vehicleYear"
-                        value={formData.vehicleYear}
+                        // value={formData.vehicleYear}
                         onChange={handleChange}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                         placeholder="e.g., 2020"
@@ -314,7 +314,7 @@ export default function ContactForm() {
                     <select
                         id="vehicleCondition"
                         name="vehicleCondition"
-                        value={formData.vehicleCondition}
+                        // value={formData.vehicleCondition}
                         onChange={handleChange}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                     >
