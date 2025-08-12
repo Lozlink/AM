@@ -1,18 +1,19 @@
+'use client'
+
 import { supabase } from '@/lib/supabase'
 import { Car } from '@/lib/supabase'
 import Header from '@/components/Header'
 import { notFound } from 'next/navigation'
-
-export const dynamic = 'force-dynamic'
+import { useState, useEffect } from 'react'
 
 
 async function getCar(id: string): Promise<Car | null> {
   try {
     const { data, error } = await supabase
-      .from('cars')
-      .select('*')
-      .eq('id', id)
-      .single()
+        .from('cars')
+        .select('*')
+        .eq('id', id)
+        .single()
 
     if (error || !data) {
       return null
@@ -25,9 +26,35 @@ async function getCar(id: string): Promise<Car | null> {
   }
 }
 
-export default async function CarDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params
-  const car = await getCar(id)
+export default function CarDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const [car, setCar] = useState<Car | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0)
+
+  useEffect(() => {
+    async function fetchCar() {
+      const resolvedParams = await params
+      const { id } = resolvedParams
+      const carData = await getCar(id)
+
+      if (!carData) {
+        notFound()
+      }
+
+      setCar(carData)
+      setLoading(false)
+    }
+
+    fetchCar()
+  }, [params])
+
+  if (loading) {
+    return (
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+          <div className="text-xl">Loading...</div>
+        </div>
+    )
+  }
 
   if (!car) {
     notFound()
@@ -45,12 +72,16 @@ export default async function CarDetailPage({ params }: { params: Promise<{ id: 
     return new Intl.NumberFormat('en-AU').format(mileage)
   }
 
+  const handleImageClick = (index: number) => {
+    setSelectedImageIndex(index)
+  }
+
   return (
-      <div className="min-h-screen bg-gray-50">
+      <div className=" min-h-screen md:min-h-0 bg-gray-50">
         <Header />
 
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 text-white py-20">
+        <section className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 text-white py-10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
               <h1 className="text-4xl md:text-5xl font-bold mb-4">
@@ -64,7 +95,7 @@ export default async function CarDetailPage({ params }: { params: Promise<{ id: 
         </section>
 
         {/* Car Details */}
-        <section className="py-20">
+        <section className="py-10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
 
@@ -75,7 +106,7 @@ export default async function CarDetailPage({ params }: { params: Promise<{ id: 
                   {car.images && car.images.length > 0 ? (
                       <div className="aspect-video bg-gradient-to-br from-gray-200 to-gray-300 rounded-xl overflow-hidden">
                         <img
-                            src={car.images[0]}
+                            src={car.images[selectedImageIndex]}
                             alt={`${car.year} ${car.make} ${car.model}`}
                             className="w-full h-full object-cover"
                         />
@@ -86,14 +117,22 @@ export default async function CarDetailPage({ params }: { params: Promise<{ id: 
                       </div>
                   )}
 
-                  {/* Additional Images */}
+                  {/* Additional Images - Now clickable */}
                   {car.images && car.images.length > 1 && (
                       <div className="grid grid-cols-4 gap-2">
-                        {car.images.slice(1, 5).map((image, index) => (
-                            <div key={index} className="aspect-video bg-gray-200 rounded-lg overflow-hidden">
+                        {car.images.map((image, index) => (
+                            <div
+                                key={index}
+                                className={`aspect-video bg-gray-200 rounded-lg overflow-hidden cursor-pointer transition-all duration-200 ${
+                                    selectedImageIndex === index
+                                        ? 'ring-4 ring-emerald-600 ring-opacity-50'
+                                        : 'hover:ring-2 hover:ring-gray-400'
+                                }`}
+                                onClick={() => handleImageClick(index)}
+                            >
                               <img
                                   src={image}
-                                  alt={`${car.year} ${car.make} ${car.model} - Image ${index + 2}`}
+                                  alt={`${car.year} ${car.make} ${car.model} - Image ${index + 1}`}
                                   className="w-full h-full object-cover"
                               />
                             </div>
@@ -134,7 +173,7 @@ export default async function CarDetailPage({ params }: { params: Promise<{ id: 
                         car.condition === 'excellent' ? 'bg-green-500 text-white' :
                             car.condition === 'good' ? 'bg-emerald-600 text-white' :
                                 'bg-yellow-500 text-white'
-                      }`}>
+                    }`}>
                         {car.condition.charAt(0).toUpperCase() + car.condition.slice(1)}
                   </span>
                   </div>
