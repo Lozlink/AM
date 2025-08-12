@@ -18,12 +18,12 @@ export default function ContactForm() {
     email: '',
     phone: '',
     message: '',
-    vehicleMake: '',
-    vehicleModel: '',
-    vehicleYear: '',
-    vehicleCondition: '',
-    budget: '',
-    preferredLocation: ''
+    // vehicleMake: '',
+    // vehicleModel: '',
+    // vehicleYear: '',
+    // vehicleCondition: '',
+    // budget: '',
+    // preferredLocation: ''
   })
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -53,12 +53,12 @@ export default function ContactForm() {
       phone: formData.phone,
       message: formData.message,
       enquiry_type: enquiryType,
-      vehicle_make: formData.vehicleMake || "",
-      vehicle_model: formData.vehicleModel || "",
-      vehicle_year: formData.vehicleYear || "",
-      vehicle_condition: formData.vehicleCondition || "",
-      budget: formData.budget || "",
-      preferred_location: formData.preferredLocation || "",
+      // vehicle_make: formData.vehicleMake || "",
+      // vehicle_model: formData.vehicleModel || "",
+      // vehicle_year: formData.vehicleYear || "",
+      // vehicle_condition: formData.vehicleCondition || "",
+      // budget: formData.budget || "",
+      // preferred_location: formData.preferredLocation || "",
     };
 
     // Insert into Supabase
@@ -89,12 +89,12 @@ export default function ContactForm() {
         email: '',
         phone: '',
         message: '',
-        vehicleMake: '',
-        vehicleModel: '',
-        vehicleYear: '',
-        vehicleCondition: '',
-        budget: '',
-        preferredLocation: ''
+        // vehicleMake: '',
+        // vehicleModel: '',
+        // vehicleYear: '',
+        // vehicleCondition: '',
+        // budget: '',
+        // preferredLocation: ''
       });
       setTimeout(() => {
         if (feedbackRef.current) feedbackRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
