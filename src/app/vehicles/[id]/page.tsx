@@ -169,13 +169,6 @@ export default function CarDetailPage({ params }: { params: Promise<{ id: string
                     <div className="text-3xl font-bold text-emerald-600">
                       {formatPrice(car.price)}
                     </div>
-                    <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                        car.condition === 'excellent' ? 'bg-green-500 text-white' :
-                            car.condition === 'good' ? 'bg-emerald-600 text-white' :
-                                'bg-yellow-500 text-white'
-                    }`}>
-                        {car.condition.charAt(0).toUpperCase() + car.condition.slice(1)}
-                  </span>
                   </div>
 
                   <div className="text-sm text-gray-500">

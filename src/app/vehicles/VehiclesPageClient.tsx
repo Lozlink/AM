@@ -16,7 +16,6 @@ export default function VehiclesPageClient({ cars }: VehiclesPageClientProps) {
   const [filteredCars, setFilteredCars] = useState<Car[]>(cars)
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedMake, setSelectedMake] = useState('')
-  const [selectedCondition, setSelectedCondition] = useState('')
   const [priceRange, setPriceRange] = useState({ min: '', max: '' })
   const [sortBy, setSortBy] = useState('newest')
 
@@ -40,10 +39,7 @@ export default function VehiclesPageClient({ cars }: VehiclesPageClientProps) {
       filtered = filtered.filter(car => car.make === selectedMake)
     }
 
-    // Condition filter
-    if (selectedCondition) {
-      filtered = filtered.filter(car => car.condition === selectedCondition)
-    }
+
 
     // Price range filter
     if (priceRange.min) {
@@ -79,12 +75,11 @@ export default function VehiclesPageClient({ cars }: VehiclesPageClientProps) {
     }
 
     setFilteredCars(filtered)
-  }, [cars, searchTerm, selectedMake, selectedCondition, priceRange, sortBy])
+  }, [cars, searchTerm, selectedMake, priceRange, sortBy])
 
   const clearFilters = () => {
     setSearchTerm('')
     setSelectedMake('')
-    setSelectedCondition('')
     setPriceRange({ min: '', max: '' })
     setSortBy('newest')
   }
@@ -143,22 +138,7 @@ export default function VehiclesPageClient({ cars }: VehiclesPageClientProps) {
               </select>
             </div>
 
-            {/* Condition Filter */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Condition
-              </label>
-              <select
-                value={selectedCondition}
-                onChange={(e) => setSelectedCondition(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focuborder-emerald-600 focus:border-emerald-600 text-gray-900 bg-white"
-              >
-                <option value="">All Conditions</option>
-                <option value="excellent">Excellent</option>
-                <option value="good">Good</option>
-                <option value="fair">Fair</option>
-              </select>
-            </div>
+
 
             {/* Sort */}
             <div>

@@ -67,16 +67,7 @@ export default function CarCardStatic({ car, hideContentOnMd = false }: CarCardS
                 </div>
             )}
 
-            {/* Condition Badge */}
-            <div className="absolute top-2 right-2">
-              <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                  car.condition === 'excellent' ? 'bg-green-500 text-white' :
-                      car.condition === 'good' ? 'bg-emerald-600 text-white' :
-                          'bg-yellow-500 text-white'
-              }`}>
-                {car.condition.charAt(0).toUpperCase() + car.condition.slice(1)}
-              </span>
-            </div>
+
           </div>
         </Link>
 

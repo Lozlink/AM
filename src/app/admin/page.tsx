@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import Header from '@/components/Header'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -8,6 +8,7 @@ import { z } from 'zod'
 import { motion } from 'framer-motion'
 import { supabase } from '@/lib/supabase'
 import UppyUploader from '@/components/UppyUploader'
+import { Car } from '@/lib/supabase'
 
 const carSchema = z.object({
   make: z.string().min(1, 'Make is required'),
@@ -19,8 +20,8 @@ const carSchema = z.object({
   transmission: z.string().min(1, 'Transmission is required'),
   color: z.string().min(1, 'Color is required'),
   description: z.string().min(10, 'Description must be at least 10 characters'),
+  vin: z.string().min(1, 'VIN is required'),
   stock_number: z.string().min(1, 'Stock number is required'),
-  condition: z.enum(['excellent', 'good', 'fair']),
   features: z.string().optional(),
   images: z.string().optional(),
 })
@@ -31,6 +32,66 @@ export default function AdminPage() {
   const [uploadedFiles, setUploadedFiles] = useState<any[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const [vehicles, setVehicles] = useState<Car[]>([])
+  const [selectedVehicle, setSelectedVehicle] = useState<string>('')
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [deleteStatus, setDeleteStatus] = useState<'idle' | 'success' | 'error'>('idle')
+
+  // Fetch vehicles from Supabase
+  useEffect(() => {
+    const fetchVehicles = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('cars')
+          .select('*')
+          .order('created_at', { ascending: false })
+
+        if (error) {
+          console.error('Error fetching vehicles:', error)
+          return
+        }
+
+        setVehicles(data || [])
+      } catch (error) {
+        console.error('Error fetching vehicles:', error)
+      }
+    }
+
+    fetchVehicles()
+  }, [deleteStatus]) // Refetch when delete status changes
+
+  // Handle vehicle deletion
+  const handleDeleteVehicle = async () => {
+    if (!selectedVehicle) return;
+
+    setIsDeleting(true);
+    setDeleteStatus('idle');
+
+    try {
+      const vehicleId = parseInt(selectedVehicle);
+      const { error } = await supabase
+        .from('cars')
+        .delete()
+        .eq('id', vehicleId);
+
+      if (error) {
+        console.error('Error deleting vehicle:', error);
+        setDeleteStatus('error');
+        throw error;
+      }
+
+      setDeleteStatus('success');
+      setSelectedVehicle('');
+
+      // Reset success message after 5 seconds
+      setTimeout(() => setDeleteStatus('idle'), 5000);
+    } catch (error) {
+      console.error('Error deleting vehicle:', error);
+      setDeleteStatus('error');
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   const {
     register,
@@ -80,7 +141,7 @@ export default function AdminPage() {
 
       setSubmitStatus('success')
       reset()
-
+      setUploadedFiles([])
       // Reset success message after 5 seconds
       setTimeout(() => setSubmitStatus('idle'), 5000)
     } catch (error) {
@@ -92,8 +153,103 @@ export default function AdminPage() {
   }
 
   return (
+    <div className="min-h-screen bg-gray-50">
+    <Header />
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white rounded-xl shadow-lg p-8"
+      >
+        <h1 className="text-3xl font-bold text-gray-900 mb-8">Add New Vehicle</h1>
+
+        {submitStatus === 'success' && (
+            <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg"
+            >
+              <div className="flex items-center">
+                <div className="text-green-600 mr-3">✓</div>
+                <div className="text-green-800">
+                  Vehicle added successfully!
+                </div>
+              </div>
+            </motion.div>
+        )}
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+           {/* Delete Vehicle Section */}
+           <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white rounded-xl shadow-lg p-8 mb-8"
+        >
+          <h1 className="text-3xl font-bold text-gray-900 mb-6">Manage Vehicles</h1>
+
+          {deleteStatus === 'success' && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg"
+            >
+              <div className="flex items-center">
+                <div className="text-green-600 mr-3">✓</div>
+                <div className="text-green-800">
+                  Vehicle deleted successfully!
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {deleteStatus === 'error' && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg"
+            >
+              <div className="flex items-center">
+                <div className="text-red-600 mr-3">✕</div>
+                <div className="text-red-800">
+                  There was an error deleting the vehicle. Please try again.
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+            <div className="md:col-span-3">
+              <label htmlFor="vehicleSelect" className="block text-sm font-medium text-gray-700 mb-2">
+                Select Vehicle
+              </label>
+              <select
+                id="vehicleSelect"
+                value={selectedVehicle}
+                onChange={(e) => setSelectedVehicle(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value="">Select a vehicle to delete</option>
+                {vehicles.map((vehicle) => (
+                  <option key={vehicle.id} value={vehicle.id}>
+                    {vehicle.year} {vehicle.make} {vehicle.model} - {vehicle.stock_number}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="md:col-span-1">
+              <button
+                type="button"
+                onClick={handleDeleteVehicle}
+                disabled={!selectedVehicle || isDeleting}
+                className="w-full bg-red-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                {isDeleting ? 'Deleting...' : 'Delete Vehicle'}
+              </button>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Add Vehicle Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -274,25 +430,7 @@ export default function AdminPage() {
                 )}
               </div>
 
-              {/* Condition */}
-              <div>
-                <label htmlFor="condition" className="block text-sm font-medium text-gray-700 mb-2">
-                  Condition *
-                </label>
-                <select
-                  {...register('condition')}
-                  id="condition"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                >
-                  <option value="">Select condition</option>
-                  <option value="excellent">Excellent</option>
-                  <option value="good">Good</option>
-                  <option value="fair">Fair</option>
-                </select>
-                {errors.condition && (
-                  <p className="mt-1 text-sm text-red-600">{errors.condition.message}</p>
-                )}
-              </div>
+              
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -314,6 +452,27 @@ export default function AdminPage() {
                   <p className="mt-1 text-sm text-red-600">{errors.color.message}</p>
                 )}
               </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* VIN */}
+                <div>
+                  <label htmlFor="vin" className="block text-sm font-medium text-gray-700 mb-2">
+                    VIN *
+                  </label>
+                  <input
+                      {...register('vin')}
+                      type="text"
+                      id="vin"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                          errors.vin ? 'border-red-300' : 'border-gray-300'
+                      }`}
+                      placeholder="17-character VIN"
+                  />
+                  {errors.vin && (
+                      <p className="mt-1 text-sm text-red-600">{errors.vin.message}</p>
+                  )}
+                </div>
 
               {/* Stock Number */}
               <div>
@@ -369,6 +528,33 @@ export default function AdminPage() {
             </div>
 
             {/* Images */}
+
+            <div className="border-t pt-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Vehicle Images</h3>
+                <div className="mb-4">
+                  <UppyUploader onUploadComplete={handleUploadComplete} />
+                </div>
+
+                {uploadedFiles.length > 0 && (
+                    <div className="mt-4">
+                      <h4 className="text-sm font-medium text-gray-700 mb-2">
+                        Uploaded Images ({uploadedFiles.length}):
+                      </h4>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                        {uploadedFiles.map((file, index) => (
+                            <div key={index} className="relative">
+                              <img
+                                  src={file.url || file.response?.body?.url}
+                                  alt={`Upload ${index + 1}`}
+                                  className="w-full h-20 object-cover rounded border"
+                              />
+                            </div>
+                        ))}
+                      </div>
+                    </div>
+                )}
+            </div>
+
             <div>
               <label htmlFor="images" className="block text-sm font-medium text-gray-700 mb-2">
                 Image URLs (comma-separated)
@@ -383,16 +569,21 @@ export default function AdminPage() {
             </div>
 
             {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            >
-              {isSubmitting ? 'Adding Vehicle...' : 'Add Vehicle'}
-            </button>
+            <div className="flex justify-end pt-6">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                {isSubmitting ? 'Adding Vehicle...' : 'Add Vehicle'}
+              </button>
+            </div>
           </form>
         </motion.div>
       </div>
     </div>
-  )
+    </motion.div>
+    </div>
+    </div>
+    )
 }

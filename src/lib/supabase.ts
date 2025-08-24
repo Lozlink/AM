@@ -32,6 +32,5 @@ export interface Car {
   features: string[]
   vin: string
   stock_number: string
-  condition: 'excellent' | 'good' | 'fair'
   created_at: string
 } 
