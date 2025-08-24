@@ -68,11 +68,11 @@ export default function AdminPage() {
     setDeleteStatus('idle');
 
     try {
-      const vehicleId = parseInt(selectedVehicle);
+      
       const { error } = await supabase
         .from('cars')
         .delete()
-        .eq('id', vehicleId);
+        .eq('id', selectedVehicle);
 
       if (error) {
         console.error('Error deleting vehicle:', error);
