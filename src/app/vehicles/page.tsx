@@ -2,6 +2,8 @@ import { supabase } from '@/lib/supabase'
 import { Car } from '@/lib/supabase'
 import VehiclesPageClient from './VehiclesPageClient'
 
+export const dynamic = 'force-dynamic'
+
 async function getCars(): Promise<Car[]> {
   console.log('🔍 Starting getCars function...')
   console.log('🔧 Supabase URL:', process.env.NEXT_PUBLIC_SUPABASE_URL)

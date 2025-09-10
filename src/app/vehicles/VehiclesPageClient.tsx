@@ -4,6 +4,7 @@ import Header from '@/components/Header'
 import CarCardStatic from '@/components/CarCardStatic'
 import { Car } from '@/lib/supabase'
 import { useState, useEffect } from 'react'
+import { supabase } from '@/lib/supabase'
 
 interface VehiclesPageClientProps {
   cars: Car[]
@@ -19,6 +20,19 @@ export default function VehiclesPageClient({ cars }: VehiclesPageClientProps) {
   const [priceRange, setPriceRange] = useState({ min: '', max: '' })
   const [sortBy, setSortBy] = useState('newest')
 
+  useEffect(() => {
+    const channel = supabase
+      .channel('cars-inserts')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'cars' }, payload => {
+        setFilteredCars(prev => [payload.new as Car, ...prev])
+      })
+      .subscribe()
+  
+    return () => {
+      supabase.removeChannel(channel)
+    }
+  }, [])
+  
   // Get unique makes for filter dropdown
   const makes = [...new Set(cars.map(car => car.make))].sort()
 
