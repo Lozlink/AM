@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic'
 async function getCars(): Promise<Car[]> {
   console.log('🔍 Starting getCars function...')
   console.log('🔧 Supabase URL:', process.env.NEXT_PUBLIC_SUPABASE_URL)
-  console.log('🔑 Anon Key exists:', !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
+  console.log('🔑 Anon Key exists:', !!process.env.SUPABASE_ANON_KEY)
 
   try {
     console.log('📡 Making Supabase request...')
