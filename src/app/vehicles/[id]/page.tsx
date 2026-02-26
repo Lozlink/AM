@@ -146,10 +146,10 @@ export default function CarDetailPage({ params }: { params: Promise<{ id: string
                   <h3 className="text-xl font-bold text-gray-900 mb-4">Interested in this vehicle?</h3>
                   <div className="space-y-3">
                     <a
-                        href={`tel:0492858699`}
+                        href={`tel:0414225660`}
                         className="w-full text-gray-900 bg-white border-2 border-gray-900 py-2 px-4 rounded-lg font-semibold hover:bg-emerald-600 transition-colors text-center block"
                     >
-                      Call Now: 0492 858 699
+                      Call Now: 0414 225 660
                     </a>
                     <a
                         href="/contact"

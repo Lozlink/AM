@@ -141,10 +141,10 @@ export default async function Home() {
         {/*      Call us directly for quick answers to your questions*/}
         {/*    </p>*/}
         {/*    <a*/}
-        {/*        href="tel:0402699999"*/}
+        {/*        href="tel:0414225660"*/}
         {/*        className="inline-block bg-emerald-500 text-white px-8 py-4 rounded-lg text-lg font-bold hover:bg-emerald-600 transition-all duration-300 transform hover:scale-105 hover:shadow-xl"*/}
         {/*    >*/}
-        {/*      📞 Call 0402 699 999*/}
+        {/*      📞 Call 0414 225 660*/}
         {/*    </a>*/}
         {/*  </div>*/}
         {/*</section>*/}
@@ -234,10 +234,10 @@ export default async function Home() {
         {/*    <div className="border-t border-white border-opacity-20 pt-8">*/}
         {/*      <p className="text-lg mb-4">Or call us directly for immediate assistance:</p>*/}
         {/*      <a*/}
-        {/*          href="tel:0402699999"*/}
+        {/*          href="tel:0414225660"*/}
         {/*          className="inline-block bg-emerald-500 text-white px-8 py-4 rounded-lg text-lg font-bold hover:bg-emerald-600 transition-all duration-300 transform hover:scale-105 hover:shadow-xl"*/}
         {/*      >*/}
-        {/*        📞 Call 0402 699 999*/}
+        {/*        📞 Call 0414 225 660*/}
         {/*      </a>*/}
         {/*    </div>*/}
         {/*  </div>*/}

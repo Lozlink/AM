@@ -16,7 +16,7 @@ export default function Footer() {
                 We make car buying simple, transparent, and enjoyable.
               </p>
               <div className="space-y-2 text-gray-300">
-                <div>📞 0492 858 699</div>
+                <div>📞 0414 225 660</div>
                 <div>📧 info@amautogroup.com</div>
                 <div>🌏 We operate across all of Australia</div>
               </div>
