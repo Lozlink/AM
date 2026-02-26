@@ -270,10 +270,10 @@ export default function VehiclesPageClient({ cars }: VehiclesPageClientProps) {
               Request a Vehicle
             </a>
             <a
-              href="tel:0492858699"
+              href="tel:0414225660"
               className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-gray-900 transition-colors"
             >
-              Call Us: 0492 858 699
+              Call Us: 0414 225 660
             </a>
           </div>
         </div>

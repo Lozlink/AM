@@ -128,7 +128,7 @@ export default function CarCardStatic({ car, hideContentOnMd = false }: CarCardS
               Enquire Now
             </Link>
             <Link
-                href="tel:0402699999"
+                href="tel:0414225660"
                 className="w-full text-gray-900 bg-white border border-gray-300 py-2 px-4 rounded-lg font-semibold hover:bg-gray-50 transition-colors text-center block text-sm"
             >
               Call Now
