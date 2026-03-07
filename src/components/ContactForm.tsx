@@ -4,8 +4,6 @@ import { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { supabase } from '@/lib/supabaseClient'
 import { useSearchParams } from 'next/navigation'
-// @ts-ignore
-import emailjs from '@emailjs/browser';
 
 
 export default function ContactForm() {
@@ -73,29 +71,17 @@ export default function ContactForm() {
     }
 
 
-    // Send via EmailJS
+    // Send via SES API route
     try {
-      console.log('EmailJS payload:', supabaseData);
-      await emailjs.send(
-          'service_vgr4wb8',
-          'template_9tsmw4s',
-          supabaseData,
-          'J4nc-QtmOnFVrHKM7'
-      );
+      const emailRes = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(supabaseData),
+      });
+      if (!emailRes.ok) throw new Error('Email send failed');
       setSuccess(true);
       setLoading(false);
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        message: '',
-        // vehicleMake: '',
-        // vehicleModel: '',
-        // vehicleYear: '',
-        // vehicleCondition: '',
-        // budget: '',
-        // preferredLocation: ''
-      });
+      setFormData({ name: '', email: '', phone: '', message: '' });
       setTimeout(() => {
         if (feedbackRef.current) feedbackRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }, 100);
