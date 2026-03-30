@@ -88,6 +88,13 @@ export default function VehiclesPageClient({ cars }: VehiclesPageClientProps) {
         break
     }
 
+    // Always push sold vehicles to the end
+    filtered.sort((a, b) => {
+      const aIsSold = (a.status || 'in_stock') === 'sold' ? 1 : 0
+      const bIsSold = (b.status || 'in_stock') === 'sold' ? 1 : 0
+      return aIsSold - bIsSold
+    })
+
     setFilteredCars(filtered)
   }, [cars, searchTerm, selectedMake, priceRange, sortBy])
 

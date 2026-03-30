@@ -6,6 +6,8 @@ import {supabase} from "@/lib/supabase";
 import { Car } from '@/lib/supabase'
 import CarCardStatic from '@/components/CarCardStatic'
 
+export const dynamic = 'force-dynamic'
+
 
 export const metadata: Metadata = {
   title: "AM Auto Group - Quality Used Cars Australia ",
@@ -21,17 +23,22 @@ export const metadata: Metadata = {
 
 async function getFeaturedCars(): Promise<Car[]> {
   try {
+    // Fetch all in-stock vehicles, then randomly pick 3
     const { data, error } = await supabase
         .from('cars')
         .select('*')
-        .limit(3)
+        .in('status', ['in_stock', 'deposit_taken'])
 
     if (error) {
       console.error('Error fetching featured cars:', error)
       return []
     }
 
-    return data || []
+    if (!data || data.length === 0) return []
+
+    // Shuffle and pick up to 3
+    const shuffled = data.sort(() => Math.random() - 0.5)
+    return shuffled.slice(0, 3)
   } catch (error) {
     console.error('Error in getFeaturedCars:', error)
     return []

@@ -1,8 +1,14 @@
 'use client'
 
-import { Car } from '@/lib/supabase'
+import { Car, CarStatus } from '@/lib/supabase'
 import Link from 'next/link'
 import { useEffect, useRef } from 'react'
+
+const statusConfig: Record<CarStatus, { label: string; bg: string; text: string }> = {
+  in_stock: { label: 'In Stock', bg: 'bg-emerald-500', text: 'text-white' },
+  sold: { label: 'Sold', bg: 'bg-red-600', text: 'text-white' },
+  deposit_taken: { label: 'Deposit Taken', bg: 'bg-amber-500', text: 'text-white' },
+}
 
 interface CarCardStaticProps {
   car: Car
@@ -11,6 +17,8 @@ interface CarCardStaticProps {
 
 export default function CarCardStatic({ car, hideContentOnMd = false }: CarCardStaticProps) {
   const cardRef = useRef<HTMLDivElement>(null)
+  const status = car.status || 'in_stock'
+  const isSold = status === 'sold'
 
   useEffect(() => {
     // Add entrance animation after component mounts
@@ -50,16 +58,16 @@ export default function CarCardStatic({ car, hideContentOnMd = false }: CarCardS
   return (
       <div
           ref={cardRef}
-          className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col"
+          className={`bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col ${isSold ? 'opacity-75' : ''}`}
       >
         {/* Image */}
         <Link href={`/vehicles/${car.id}`}>
-          <div className="aspect-[4/3] bg-gradient-to-br from-gray-200 to-gray-300 relative overflow-hidden">
+          <div className="aspect-square bg-gradient-to-br from-gray-200 to-gray-300 relative overflow-hidden">
             {car.images && car.images.length > 0 ? (
                 <img
                     src={car.images[0]}
                     alt={`${car.year} ${car.make} ${car.model}`}
-                    className="w-full h-full object-cover"
+                    className={`w-full h-full object-cover ${isSold ? 'grayscale-[30%]' : ''}`}
                 />
             ) : (
                 <div className="w-full h-full flex items-center justify-center">
@@ -67,7 +75,10 @@ export default function CarCardStatic({ car, hideContentOnMd = false }: CarCardS
                 </div>
             )}
 
-
+            {/* Status Banner */}
+            <div className={`absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${statusConfig[status].bg} ${statusConfig[status].text} shadow-md`}>
+              {statusConfig[status].label}
+            </div>
           </div>
         </Link>
 

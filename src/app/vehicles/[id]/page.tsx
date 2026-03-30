@@ -1,10 +1,16 @@
 'use client'
 
 import { supabase } from '@/lib/supabase'
-import { Car } from '@/lib/supabase'
+import { Car, CarStatus } from '@/lib/supabase'
 import Header from '@/components/Header'
 import { notFound } from 'next/navigation'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+
+const statusConfig: Record<CarStatus, { label: string; bg: string; text: string; border: string }> = {
+  in_stock: { label: 'In Stock', bg: 'bg-emerald-500', text: 'text-white', border: 'border-emerald-600' },
+  sold: { label: 'Sold', bg: 'bg-red-600', text: 'text-white', border: 'border-red-700' },
+  deposit_taken: { label: 'Deposit Taken', bg: 'bg-amber-500', text: 'text-white', border: 'border-amber-600' },
+}
 
 
 async function getCar(id: string): Promise<Car | null> {
@@ -30,6 +36,8 @@ export default function CarDetailPage({ params }: { params: Promise<{ id: string
   const [car, setCar] = useState<Car | null>(null)
   const [loading, setLoading] = useState(true)
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
+  const [lightboxOpen, setLightboxOpen] = useState(false)
+  const [lightboxIndex, setLightboxIndex] = useState(0)
 
   useEffect(() => {
     async function fetchCar() {
@@ -47,6 +55,31 @@ export default function CarDetailPage({ params }: { params: Promise<{ id: string
 
     fetchCar()
   }, [params])
+
+  const lightboxPrev = useCallback(() => {
+    if (!car?.images) return
+    setLightboxIndex(prev => (prev - 1 + car.images.length) % car.images.length)
+  }, [car?.images])
+
+  const lightboxNext = useCallback(() => {
+    if (!car?.images) return
+    setLightboxIndex(prev => (prev + 1) % car.images.length)
+  }, [car?.images])
+
+  useEffect(() => {
+    if (!lightboxOpen) return
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLightboxOpen(false)
+      if (e.key === 'ArrowLeft') lightboxPrev()
+      if (e.key === 'ArrowRight') lightboxNext()
+    }
+    document.body.style.overflow = 'hidden'
+    window.addEventListener('keydown', handleKey)
+    return () => {
+      document.body.style.overflow = ''
+      window.removeEventListener('keydown', handleKey)
+    }
+  }, [lightboxOpen, lightboxPrev, lightboxNext])
 
   if (loading) {
     return (
@@ -76,6 +109,13 @@ export default function CarDetailPage({ params }: { params: Promise<{ id: string
     setSelectedImageIndex(index)
   }
 
+  const openLightbox = (index: number) => {
+    setLightboxIndex(index)
+    setLightboxOpen(true)
+  }
+
+  const closeLightbox = () => setLightboxOpen(false)
+
   return (
       <div className=" min-h-screen md:min-h-0 bg-gray-50">
         <Header />
@@ -87,9 +127,14 @@ export default function CarDetailPage({ params }: { params: Promise<{ id: string
               <h1 className="text-4xl md:text-5xl font-bold mb-4">
                 {car.year} {car.make} {car.model}
               </h1>
-              <p className="text-2xl text-emerald-600">
-                {formatPrice(car.price)}
-              </p>
+              <div className="flex items-center justify-center gap-4">
+                <p className="text-2xl text-emerald-600">
+                  {formatPrice(car.price)}
+                </p>
+                <span className={`px-4 py-1.5 rounded-full text-sm font-bold uppercase tracking-wide ${statusConfig[car.status || 'in_stock'].bg} ${statusConfig[car.status || 'in_stock'].text} shadow-md`}>
+                  {statusConfig[car.status || 'in_stock'].label}
+                </span>
+              </div>
             </div>
           </div>
         </section>
@@ -104,26 +149,29 @@ export default function CarDetailPage({ params }: { params: Promise<{ id: string
                 {/* Images */}
                 <div className="space-y-4">
                   {car.images && car.images.length > 0 ? (
-                      <div className="aspect-video bg-gradient-to-br from-gray-200 to-gray-300 rounded-xl overflow-hidden">
+                      <div
+                        className="aspect-square bg-gradient-to-br from-gray-200 to-gray-300 rounded-xl overflow-hidden cursor-pointer"
+                        onClick={() => openLightbox(selectedImageIndex)}
+                      >
                         <img
                             src={car.images[selectedImageIndex]}
                             alt={`${car.year} ${car.make} ${car.model}`}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                         />
                       </div>
                   ) : (
-                      <div className="aspect-video bg-gradient-to-br from-gray-200 to-gray-300 rounded-xl flex items-center justify-center">
+                      <div className="aspect-square bg-gradient-to-br from-gray-200 to-gray-300 rounded-xl flex items-center justify-center">
                         <div className="text-8xl">🚗</div>
                       </div>
                   )}
 
-                  {/* Additional Images - Now clickable */}
+                  {/* Additional Images - clickable thumbnails */}
                   {car.images && car.images.length > 1 && (
                       <div className="grid grid-cols-4 gap-2">
                         {car.images.map((image, index) => (
                             <div
                                 key={index}
-                                className={`aspect-video bg-gray-200 rounded-lg overflow-hidden cursor-pointer transition-all duration-200 ${
+                                className={`aspect-square bg-gray-200 rounded-lg overflow-hidden cursor-pointer transition-all duration-200 ${
                                     selectedImageIndex === index
                                         ? 'ring-4 ring-emerald-600 ring-opacity-50'
                                         : 'hover:ring-2 hover:ring-gray-400'
@@ -227,10 +275,72 @@ export default function CarDetailPage({ params }: { params: Promise<{ id: string
                       </div>
                     </div>
                 )}
+
+                {/* Description */}
+                {car.description && (
+                    <div className="bg-white rounded-xl p-6 shadow-lg">
+                      <h3 className="text-xl font-bold text-gray-900 mb-4">Vehicle Description</h3>
+                      <div className="text-gray-700 leading-relaxed whitespace-pre-line">
+                        {car.description}
+                      </div>
+                    </div>
+                )}
               </div>
             </div>
           </div>
         </section>
+
+        {/* Lightbox */}
+        {lightboxOpen && car.images && car.images.length > 0 && (
+            <div
+                className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center"
+                onClick={closeLightbox}
+            >
+              {/* Close button */}
+              <button
+                  onClick={closeLightbox}
+                  className="absolute top-4 right-4 text-white text-4xl font-light hover:text-gray-300 transition-colors z-10"
+                  aria-label="Close lightbox"
+              >
+                &times;
+              </button>
+
+              {/* Image counter */}
+              <div className="absolute top-4 left-4 text-white text-sm font-medium z-10">
+                {lightboxIndex + 1} / {car.images.length}
+              </div>
+
+              {/* Previous button */}
+              {car.images.length > 1 && (
+                  <button
+                      onClick={(e) => { e.stopPropagation(); lightboxPrev() }}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-5xl font-light hover:text-gray-300 transition-colors z-10 px-2"
+                      aria-label="Previous image"
+                  >
+                    &#8249;
+                  </button>
+              )}
+
+              {/* Main image */}
+              <img
+                  src={car.images[lightboxIndex]}
+                  alt={`${car.year} ${car.make} ${car.model} - Image ${lightboxIndex + 1}`}
+                  className="max-h-[90vh] max-w-[90vw] object-contain"
+                  onClick={(e) => e.stopPropagation()}
+              />
+
+              {/* Next button */}
+              {car.images.length > 1 && (
+                  <button
+                      onClick={(e) => { e.stopPropagation(); lightboxNext() }}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-white text-5xl font-light hover:text-gray-300 transition-colors z-10 px-2"
+                      aria-label="Next image"
+                  >
+                    &#8250;
+                  </button>
+              )}
+            </div>
+        )}
       </div>
   )
 } 
