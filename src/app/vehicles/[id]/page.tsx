@@ -9,7 +9,7 @@ import { useState, useEffect, useCallback } from 'react'
 const statusConfig: Record<CarStatus, { label: string; bg: string; text: string; border: string }> = {
   in_stock: { label: 'In Stock', bg: 'bg-emerald-500', text: 'text-white', border: 'border-emerald-600' },
   sold: { label: 'Sold', bg: 'bg-red-600', text: 'text-white', border: 'border-red-700' },
-  deposit_taken: { label: 'Deposit Taken', bg: 'bg-amber-500', text: 'text-white', border: 'border-amber-600' },
+  under_offer: { label: 'Under Offer', bg: 'bg-amber-500', text: 'text-white', border: 'border-amber-600' },
 }
 
 

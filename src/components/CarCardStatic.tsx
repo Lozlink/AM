@@ -7,7 +7,7 @@ import { useEffect, useRef } from 'react'
 const statusConfig: Record<CarStatus, { label: string; bg: string; text: string }> = {
   in_stock: { label: 'In Stock', bg: 'bg-emerald-500', text: 'text-white' },
   sold: { label: 'Sold', bg: 'bg-red-600', text: 'text-white' },
-  deposit_taken: { label: 'Deposit Taken', bg: 'bg-amber-500', text: 'text-white' },
+  under_offer: { label: 'Under Offer', bg: 'bg-amber-500', text: 'text-white' },
 }
 
 interface CarCardStaticProps {

@@ -17,7 +17,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
 //   realtime: false
 // })
 
-export type CarStatus = 'in_stock' | 'sold' | 'deposit_taken'
+export type CarStatus = 'in_stock' | 'sold' | 'under_offer'
 
 export interface Car {
   id: number

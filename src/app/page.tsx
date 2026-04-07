@@ -27,7 +27,7 @@ async function getFeaturedCars(): Promise<Car[]> {
     const { data, error } = await supabase
         .from('cars')
         .select('*')
-        .in('status', ['in_stock', 'deposit_taken'])
+        .in('status', ['in_stock', 'under_offer'])
 
     if (error) {
       console.error('Error fetching featured cars:', error)

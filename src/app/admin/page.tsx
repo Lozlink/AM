@@ -22,7 +22,7 @@ const carSchema = z.object({
   description: z.string().min(10, 'Description must be at least 10 characters'),
   vin: z.string().min(1, 'VIN is required'),
   stock_number: z.string().min(1, 'Stock number is required'),
-  status: z.enum(['in_stock', 'sold', 'deposit_taken']),
+  status: z.enum(['in_stock', 'sold', 'under_offer']),
   features: z.string().optional(),
   images: z.string().optional(),
 })
@@ -505,7 +505,7 @@ export default function AdminPage() {
                 </label>
                 <select {...register('status')} id="status" className={selectClass}>
                   <option value="in_stock">In Stock</option>
-                  <option value="deposit_taken">Deposit Taken</option>
+                  <option value="under_offer">Under Offer</option>
                   <option value="sold">Sold</option>
                 </select>
                 {errors.status && <p className="mt-1 text-sm text-red-600">{errors.status.message}</p>}
