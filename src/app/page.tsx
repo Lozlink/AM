@@ -1,6 +1,7 @@
 import Header from '@/components/Header'
 import Hero from '@/components/Hero'
 import Link from 'next/link'
+import Image from 'next/image'
 import type { Metadata } from 'next'
 import {supabase} from "@/lib/supabase";
 import { Car } from '@/lib/supabase'
@@ -58,10 +59,13 @@ export default async function Home() {
         <section className="py-20 bg-slate-100 relative overflow-hidden">
           {/* Background image and overlay */}
           <div className="absolute inset-0 w-full h-full z-0">
-            <img
+            <Image
                 src="/welcomeplacerholder.jpg"
                 alt="Car dealership background"
-                className="w-full h-full object-cover object-center blur-sm scale-105"
+                fill
+                priority
+                sizes="100vw"
+                className="object-cover object-center blur-sm scale-105"
                 style={{ filter: 'brightness(0.4) blur(4px)' }}
             />
             <div className="absolute inset-0 bg-black/30" />

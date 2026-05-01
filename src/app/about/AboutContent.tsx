@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import Link from 'next/link'
 
 export default function AboutContent() {
@@ -24,10 +25,12 @@ export default function AboutContent() {
             {/* Combined Our Story and Our Values with shared background */}
             <section className="py-20 relative overflow-hidden">
                 <div className="absolute inset-0 w-full h-full z-0">
-                    <img
+                    <Image
                         src="/welcomeplacerholder.jpg"
                         alt="Car dealership background"
-                        className="w-full h-full object-cover object-center blur-sm scale-105"
+                        fill
+                        sizes="100vw"
+                        className="object-cover object-center blur-sm scale-105"
                         style={{ filter: 'brightness(0.4) blur(4px)' }}
                     />
                     <div className="absolute inset-0 bg-black/30" />

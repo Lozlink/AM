@@ -2,6 +2,7 @@
 
 import { Car, CarStatus } from '@/lib/supabase'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useEffect, useRef } from 'react'
 
 const statusConfig: Record<CarStatus, { label: string; bg: string; text: string }> = {
@@ -64,10 +65,12 @@ export default function CarCardStatic({ car, hideContentOnMd = false }: CarCardS
         <Link href={`/vehicles/${car.id}`}>
           <div className="aspect-square bg-gradient-to-br from-gray-200 to-gray-300 relative overflow-hidden">
             {car.images && car.images.length > 0 ? (
-                <img
+                <Image
                     src={car.images[0]}
                     alt={`${car.year} ${car.make} ${car.model}`}
-                    className={`w-full h-full object-cover ${isSold ? 'grayscale-[30%]' : ''}`}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className={`object-cover ${isSold ? 'grayscale-[30%]' : ''}`}
                 />
             ) : (
                 <div className="w-full h-full flex items-center justify-center">

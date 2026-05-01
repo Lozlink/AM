@@ -3,6 +3,7 @@
 import { supabase } from '@/lib/supabase'
 import { Car, CarStatus } from '@/lib/supabase'
 import Header from '@/components/Header'
+import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { useState, useEffect, useCallback } from 'react'
 
@@ -150,13 +151,16 @@ export default function CarDetailPage({ params }: { params: Promise<{ id: string
                 <div className="space-y-4">
                   {car.images && car.images.length > 0 ? (
                       <div
-                        className="aspect-square bg-gradient-to-br from-gray-200 to-gray-300 rounded-xl overflow-hidden cursor-pointer"
+                        className="aspect-square bg-gradient-to-br from-gray-200 to-gray-300 rounded-xl overflow-hidden cursor-pointer relative"
                         onClick={() => openLightbox(selectedImageIndex)}
                       >
-                        <img
+                        <Image
                             src={car.images[selectedImageIndex]}
                             alt={`${car.year} ${car.make} ${car.model}`}
-                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                            fill
+                            priority
+                            sizes="(max-width: 1024px) 100vw, 50vw"
+                            className="object-cover hover:scale-105 transition-transform duration-300"
                         />
                       </div>
                   ) : (
@@ -171,17 +175,19 @@ export default function CarDetailPage({ params }: { params: Promise<{ id: string
                         {car.images.map((image, index) => (
                             <div
                                 key={index}
-                                className={`aspect-square bg-gray-200 rounded-lg overflow-hidden cursor-pointer transition-all duration-200 ${
+                                className={`aspect-square bg-gray-200 rounded-lg overflow-hidden cursor-pointer transition-all duration-200 relative ${
                                     selectedImageIndex === index
                                         ? 'ring-4 ring-emerald-600 ring-opacity-50'
                                         : 'hover:ring-2 hover:ring-gray-400'
                                 }`}
                                 onClick={() => handleImageClick(index)}
                             >
-                              <img
+                              <Image
                                   src={image}
                                   alt={`${car.year} ${car.make} ${car.model} - Image ${index + 1}`}
-                                  className="w-full h-full object-cover"
+                                  fill
+                                  sizes="(max-width: 1024px) 25vw, 12vw"
+                                  className="object-cover"
                               />
                             </div>
                         ))}
@@ -322,10 +328,13 @@ export default function CarDetailPage({ params }: { params: Promise<{ id: string
               )}
 
               {/* Main image */}
-              <img
+              <Image
                   src={car.images[lightboxIndex]}
                   alt={`${car.year} ${car.make} ${car.model} - Image ${lightboxIndex + 1}`}
-                  className="max-h-[90vh] max-w-[90vw] object-contain"
+                  width={1920}
+                  height={1080}
+                  sizes="90vw"
+                  className="max-h-[90vh] max-w-[90vw] w-auto h-auto object-contain"
                   onClick={(e) => e.stopPropagation()}
               />
 

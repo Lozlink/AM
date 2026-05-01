@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback, useEffect } from 'react'
+import Image from 'next/image'
 import Header from '@/components/Header'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -41,6 +42,8 @@ export default function AdminPage() {
   const [editingVehicle, setEditingVehicle] = useState<Car | null>(null)
   const [existingImages, setExistingImages] = useState<string[]>([])
   const [refreshKey, setRefreshKey] = useState(0)
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null)
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null)
 
   const {
     register,
@@ -158,6 +161,41 @@ export default function AdminPage() {
 
   const removeExistingImage = (index: number) => {
     setExistingImages(prev => prev.filter((_, i) => i !== index))
+  }
+
+  const moveExistingImage = (from: number, to: number) => {
+    setExistingImages(prev => {
+      if (to < 0 || to >= prev.length || from === to) return prev
+      const next = [...prev]
+      const [item] = next.splice(from, 1)
+      next.splice(to, 0, item)
+      return next
+    })
+  }
+
+  const handleImageDragStart = (index: number) => (e: React.DragEvent) => {
+    setDraggedIndex(index)
+    e.dataTransfer.effectAllowed = 'move'
+  }
+
+  const handleImageDragOver = (index: number) => (e: React.DragEvent) => {
+    e.preventDefault()
+    e.dataTransfer.dropEffect = 'move'
+    if (dragOverIndex !== index) setDragOverIndex(index)
+  }
+
+  const handleImageDrop = (index: number) => (e: React.DragEvent) => {
+    e.preventDefault()
+    if (draggedIndex !== null && draggedIndex !== index) {
+      moveExistingImage(draggedIndex, index)
+    }
+    setDraggedIndex(null)
+    setDragOverIndex(null)
+  }
+
+  const handleImageDragEnd = () => {
+    setDraggedIndex(null)
+    setDragOverIndex(null)
   }
 
   const onSubmit = async (data: CarFormData) => {
@@ -592,25 +630,91 @@ export default function AdminPage() {
             {/* Existing Images (edit mode) */}
             {editingVehicle && existingImages.length > 0 && (
               <div className="border-t pt-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Current Images</h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                  {existingImages.map((url, index) => (
-                    <div key={index} className="relative group">
-                      <img
-                        src={url}
-                        alt={`Current image ${index + 1}`}
-                        className="w-full h-24 object-cover rounded border"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => removeExistingImage(index)}
-                        className="absolute top-1 right-1 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
-                        aria-label="Remove image"
+                <div className="flex items-baseline justify-between mb-2">
+                  <h3 className="text-lg font-semibold text-gray-900">Current Images</h3>
+                  <span className="text-xs text-gray-500">
+                    Drag to reorder · The first image is the listing cover · Save to apply
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  {existingImages.map((url, index) => {
+                    const isDragging = draggedIndex === index
+                    const isDropTarget = dragOverIndex === index && draggedIndex !== null && draggedIndex !== index
+                    return (
+                      <div
+                        key={`${url}-${index}`}
+                        draggable
+                        onDragStart={handleImageDragStart(index)}
+                        onDragOver={handleImageDragOver(index)}
+                        onDrop={handleImageDrop(index)}
+                        onDragEnd={handleImageDragEnd}
+                        onDragLeave={() => setDragOverIndex(null)}
+                        className={`relative group rounded border bg-white cursor-move transition-all ${
+                          isDragging ? 'opacity-40 scale-95' : ''
+                        } ${
+                          isDropTarget ? 'ring-2 ring-blue-500 border-blue-500' : 'border-gray-200'
+                        }`}
                       >
-                        ✕
-                      </button>
-                    </div>
-                  ))}
+                        <div className="relative w-full h-24 rounded-t overflow-hidden pointer-events-none">
+                          <Image
+                            src={url}
+                            alt={`Current image ${index + 1}`}
+                            fill
+                            sizes="(max-width: 768px) 50vw, 25vw"
+                            className="object-cover"
+                            draggable={false}
+                          />
+                        </div>
+
+                        {/* Cover badge on the first image */}
+                        {index === 0 && (
+                          <div className="absolute top-1 left-1 bg-blue-600 text-white text-[10px] font-semibold px-1.5 py-0.5 rounded">
+                            COVER
+                          </div>
+                        )}
+
+                        {/* Position indicator */}
+                        <div className="absolute top-1 right-1 bg-black/60 text-white text-[10px] font-medium w-5 h-5 flex items-center justify-center rounded-full">
+                          {index + 1}
+                        </div>
+
+                        {/* Reorder + remove controls (touch-friendly fallback) */}
+                        <div className="flex items-center justify-between gap-1 px-1.5 py-1 border-t border-gray-100">
+                          <div className="flex gap-1">
+                            <button
+                              type="button"
+                              onClick={() => moveExistingImage(index, index - 1)}
+                              disabled={index === 0}
+                              className="text-gray-600 hover:text-blue-600 disabled:opacity-30 disabled:cursor-not-allowed text-sm leading-none px-1"
+                              aria-label="Move image left"
+                              title="Move earlier"
+                            >
+                              ←
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => moveExistingImage(index, index + 1)}
+                              disabled={index === existingImages.length - 1}
+                              className="text-gray-600 hover:text-blue-600 disabled:opacity-30 disabled:cursor-not-allowed text-sm leading-none px-1"
+                              aria-label="Move image right"
+                              title="Move later"
+                            >
+                              →
+                            </button>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => removeExistingImage(index)}
+                            className="text-red-600 hover:text-red-700 text-xs px-1"
+                            aria-label="Remove image"
+                            title="Remove image"
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
             )}
@@ -631,11 +735,13 @@ export default function AdminPage() {
                   </h4>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                     {uploadedFiles.map((url, index) => (
-                      <div key={index} className="relative">
-                        <img
+                      <div key={index} className="relative w-full h-20 rounded border overflow-hidden">
+                        <Image
                           src={url}
                           alt={`Upload ${index + 1}`}
-                          className="w-full h-20 object-cover rounded border"
+                          fill
+                          sizes="(max-width: 768px) 50vw, 25vw"
+                          className="object-cover"
                         />
                       </div>
                     ))}
