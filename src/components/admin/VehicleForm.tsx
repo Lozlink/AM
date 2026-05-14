@@ -1,0 +1,417 @@
+'use client'
+
+import { useState, useCallback } from 'react'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+import { motion } from 'framer-motion'
+import { supabase } from '@/lib/supabase'
+import UppyUploader from '@/components/UppyUploader'
+import { Car } from '@/lib/supabase'
+
+const carSchema = z.object({
+  make: z.string().min(1, 'Make is required'),
+  model: z.string().min(1, 'Model is required'),
+  year: z.number().min(1900).max(new Date().getFullYear() + 1),
+  price: z.number().min(0, 'Price must be positive'),
+  mileage: z.number().min(0, 'Mileage must be positive'),
+  fuel_type: z.string().min(1, 'Fuel type is required'),
+  transmission: z.string().min(1, 'Transmission is required'),
+  color: z.string().min(1, 'Color is required'),
+  description: z.string().min(10, 'Description must be at least 10 characters'),
+  vin: z.string().min(1, 'VIN is required'),
+  stock_number: z.string().min(1, 'Stock number is required'),
+  status: z.enum(['in_stock', 'sold', 'under_offer']),
+  features: z.string().optional(),
+  images: z.string().optional(),
+})
+
+type CarFormData = z.infer<typeof carSchema>
+
+interface VehicleFormProps {
+  initialVehicle?: Car | null
+}
+
+export default function VehicleForm({ initialVehicle = null }: VehicleFormProps) {
+  const router = useRouter()
+  const isEditing = !!initialVehicle
+
+  const [uploadedFiles, setUploadedFiles] = useState<string[]>([])
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const [submitMessage, setSubmitMessage] = useState('')
+  const [existingImages, setExistingImages] = useState<string[]>(initialVehicle?.images || [])
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null)
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null)
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CarFormData>({
+    resolver: zodResolver(carSchema),
+    defaultValues: initialVehicle
+      ? {
+          make: initialVehicle.make,
+          model: initialVehicle.model,
+          year: initialVehicle.year,
+          price: initialVehicle.price,
+          mileage: initialVehicle.mileage,
+          fuel_type: initialVehicle.fuel_type,
+          transmission: initialVehicle.transmission,
+          color: initialVehicle.color,
+          description: initialVehicle.description,
+          vin: initialVehicle.vin,
+          stock_number: initialVehicle.stock_number,
+          status: initialVehicle.status || 'in_stock',
+          features: initialVehicle.features?.join(', ') || '',
+          images: '',
+        }
+      : { status: 'in_stock' },
+  })
+
+  const handleUploadComplete = useCallback((files: Array<Record<string, unknown>>) => {
+    const imageUrls = files
+      .map((file) => {
+        const directUrl = file.url as string | undefined
+        const uploadUrl = file.uploadURL as string | undefined
+        const response = file.response as { body?: Array<{ url?: string }> | { url?: string } } | undefined
+        const bodyUrl = Array.isArray(response?.body) ? response.body[0]?.url : response?.body?.url
+        return directUrl || uploadUrl || bodyUrl
+      })
+      .filter(Boolean) as string[]
+    setUploadedFiles(imageUrls)
+  }, [])
+
+  const removeExistingImage = (index: number) => {
+    setExistingImages((prev) => prev.filter((_, i) => i !== index))
+  }
+
+  const moveExistingImage = (from: number, to: number) => {
+    setExistingImages((prev) => {
+      if (to < 0 || to >= prev.length || from === to) return prev
+      const next = [...prev]
+      const [item] = next.splice(from, 1)
+      next.splice(to, 0, item)
+      return next
+    })
+  }
+
+  const handleImageDragStart = (index: number) => (e: React.DragEvent) => {
+    setDraggedIndex(index)
+    e.dataTransfer.effectAllowed = 'move'
+  }
+
+  const handleImageDragOver = (index: number) => (e: React.DragEvent) => {
+    e.preventDefault()
+    e.dataTransfer.dropEffect = 'move'
+    if (dragOverIndex !== index) setDragOverIndex(index)
+  }
+
+  const handleImageDrop = (index: number) => (e: React.DragEvent) => {
+    e.preventDefault()
+    if (draggedIndex !== null && draggedIndex !== index) {
+      moveExistingImage(draggedIndex, index)
+    }
+    setDraggedIndex(null)
+    setDragOverIndex(null)
+  }
+
+  const handleImageDragEnd = () => {
+    setDraggedIndex(null)
+    setDragOverIndex(null)
+  }
+
+  const onSubmit = async (data: CarFormData) => {
+    setIsSubmitting(true)
+    setSubmitStatus('idle')
+
+    try {
+      let images: string[] = isEditing ? [...existingImages] : []
+      if (uploadedFiles.length > 0) {
+        images = [...images, ...uploadedFiles]
+      }
+      if (data.images) {
+        const manualUrls = data.images
+          .split(',')
+          .map((img) => img.trim())
+          .filter(Boolean)
+        images = [...images, ...manualUrls]
+      }
+
+      const carData = {
+        make: data.make,
+        model: data.model,
+        year: data.year,
+        price: data.price,
+        mileage: data.mileage,
+        fuel_type: data.fuel_type,
+        transmission: data.transmission,
+        color: data.color,
+        description: data.description,
+        vin: data.vin,
+        stock_number: data.stock_number,
+        status: data.status,
+        features: data.features ? data.features.split(',').map((f) => f.trim()) : [],
+        images,
+      }
+
+      if (isEditing && initialVehicle) {
+        const { error } = await supabase.from('cars').update(carData).eq('id', initialVehicle.id)
+        if (error) throw error
+        setSubmitMessage('Vehicle updated successfully!')
+      } else {
+        const { error } = await supabase
+          .from('cars')
+          .insert([{ ...carData, created_at: new Date().toISOString() }])
+        if (error) throw error
+        setSubmitMessage('Vehicle added successfully!')
+      }
+
+      setSubmitStatus('success')
+      setTimeout(() => {
+        router.push('/admin/vehicles')
+        router.refresh()
+      }, 1200)
+    } catch (error) {
+      console.error('Error submitting car:', error)
+      setSubmitStatus('error')
+      setSubmitMessage(isEditing ? 'Error updating vehicle.' : 'Error adding vehicle.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const inputClass = (hasError: boolean) =>
+    `w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+      hasError ? 'border-red-300' : 'border-gray-300'
+    }`
+
+  const selectClass =
+    'w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="bg-white rounded-xl shadow-lg p-8"
+    >
+      <h1 className="text-3xl font-bold text-gray-900 mb-8">
+        {isEditing
+          ? `Edit: ${initialVehicle?.year} ${initialVehicle?.make} ${initialVehicle?.model}`
+          : 'Add New Vehicle'}
+      </h1>
+
+      {submitStatus === 'success' && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg"
+        >
+          <div className="flex items-center">
+            <div className="text-green-600 mr-3">✓</div>
+            <div className="text-green-800">{submitMessage}</div>
+          </div>
+        </motion.div>
+      )}
+
+      {submitStatus === 'error' && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg"
+        >
+          <div className="flex items-center">
+            <div className="text-red-600 mr-3">✕</div>
+            <div className="text-red-800">{submitMessage}</div>
+          </div>
+        </motion.div>
+      )}
+
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label htmlFor="make" className="block text-sm font-medium text-gray-700 mb-2">Make *</label>
+            <input {...register('make')} type="text" id="make" className={inputClass(!!errors.make)} placeholder="e.g., Toyota" />
+            {errors.make && <p className="mt-1 text-sm text-red-600">{errors.make.message}</p>}
+          </div>
+          <div>
+            <label htmlFor="model" className="block text-sm font-medium text-gray-700 mb-2">Model *</label>
+            <input {...register('model')} type="text" id="model" className={inputClass(!!errors.model)} placeholder="e.g., Camry" />
+            {errors.model && <p className="mt-1 text-sm text-red-600">{errors.model.message}</p>}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div>
+            <label htmlFor="year" className="block text-sm font-medium text-gray-700 mb-2">Year *</label>
+            <input {...register('year', { valueAsNumber: true })} type="number" id="year" className={inputClass(!!errors.year)} placeholder="2020" />
+            {errors.year && <p className="mt-1 text-sm text-red-600">{errors.year.message}</p>}
+          </div>
+          <div>
+            <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-2">Price (AUD) *</label>
+            <input {...register('price', { valueAsNumber: true })} type="number" id="price" className={inputClass(!!errors.price)} placeholder="25000" />
+            {errors.price && <p className="mt-1 text-sm text-red-600">{errors.price.message}</p>}
+          </div>
+          <div>
+            <label htmlFor="mileage" className="block text-sm font-medium text-gray-700 mb-2">Mileage (km) *</label>
+            <input {...register('mileage', { valueAsNumber: true })} type="number" id="mileage" className={inputClass(!!errors.mileage)} placeholder="50000" />
+            {errors.mileage && <p className="mt-1 text-sm text-red-600">{errors.mileage.message}</p>}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div>
+            <label htmlFor="fuel_type" className="block text-sm font-medium text-gray-700 mb-2">Fuel Type *</label>
+            <select {...register('fuel_type')} id="fuel_type" className={selectClass}>
+              <option value="">Select fuel type</option>
+              <option value="Petrol">Petrol</option>
+              <option value="Diesel">Diesel</option>
+              <option value="Hybrid">Hybrid</option>
+              <option value="Electric">Electric</option>
+              <option value="LPG">LPG</option>
+            </select>
+            {errors.fuel_type && <p className="mt-1 text-sm text-red-600">{errors.fuel_type.message}</p>}
+          </div>
+          <div>
+            <label htmlFor="transmission" className="block text-sm font-medium text-gray-700 mb-2">Transmission *</label>
+            <select {...register('transmission')} id="transmission" className={selectClass}>
+              <option value="">Select transmission</option>
+              <option value="Automatic">Automatic</option>
+              <option value="Manual">Manual</option>
+              <option value="CVT">CVT</option>
+            </select>
+            {errors.transmission && <p className="mt-1 text-sm text-red-600">{errors.transmission.message}</p>}
+          </div>
+          <div>
+            <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-2">Listing Status *</label>
+            <select {...register('status')} id="status" className={selectClass}>
+              <option value="in_stock">In Stock</option>
+              <option value="under_offer">Under Offer</option>
+              <option value="sold">Sold</option>
+            </select>
+            {errors.status && <p className="mt-1 text-sm text-red-600">{errors.status.message}</p>}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label htmlFor="color" className="block text-sm font-medium text-gray-700 mb-2">Color *</label>
+            <input {...register('color')} type="text" id="color" className={inputClass(!!errors.color)} placeholder="e.g., Silver" />
+            {errors.color && <p className="mt-1 text-sm text-red-600">{errors.color.message}</p>}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label htmlFor="vin" className="block text-sm font-medium text-gray-700 mb-2">VIN *</label>
+            <input {...register('vin')} type="text" id="vin" className={inputClass(!!errors.vin)} placeholder="17-character VIN" />
+            {errors.vin && <p className="mt-1 text-sm text-red-600">{errors.vin.message}</p>}
+          </div>
+          <div>
+            <label htmlFor="stock_number" className="block text-sm font-medium text-gray-700 mb-2">Stock Number *</label>
+            <input {...register('stock_number')} type="text" id="stock_number" className={inputClass(!!errors.stock_number)} placeholder="e.g., AM001" />
+            {errors.stock_number && <p className="mt-1 text-sm text-red-600">{errors.stock_number.message}</p>}
+          </div>
+        </div>
+
+        <div>
+          <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">Description *</label>
+          <textarea {...register('description')} id="description" rows={4} className={inputClass(!!errors.description)} placeholder="Detailed description of the vehicle..." />
+          {errors.description && <p className="mt-1 text-sm text-red-600">{errors.description.message}</p>}
+        </div>
+
+        <div>
+          <label htmlFor="features" className="block text-sm font-medium text-gray-700 mb-2">Features (comma-separated)</label>
+          <input {...register('features')} type="text" id="features" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="e.g., Bluetooth, Navigation, Leather Seats" />
+        </div>
+
+        {isEditing && existingImages.length > 0 && (
+          <div className="border-t pt-6">
+            <div className="flex items-baseline justify-between mb-2">
+              <h3 className="text-lg font-semibold text-gray-900">Current Images</h3>
+              <span className="text-xs text-gray-500">Drag to reorder · First image is the listing cover</span>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {existingImages.map((url, index) => {
+                const isDragging = draggedIndex === index
+                const isDropTarget = dragOverIndex === index && draggedIndex !== null && draggedIndex !== index
+                return (
+                  <div
+                    key={`${url}-${index}`}
+                    draggable
+                    onDragStart={handleImageDragStart(index)}
+                    onDragOver={handleImageDragOver(index)}
+                    onDrop={handleImageDrop(index)}
+                    onDragEnd={handleImageDragEnd}
+                    onDragLeave={() => setDragOverIndex(null)}
+                    className={`relative group rounded border bg-white cursor-move transition-all ${isDragging ? 'opacity-40 scale-95' : ''} ${isDropTarget ? 'ring-2 ring-blue-500 border-blue-500' : 'border-gray-200'}`}
+                  >
+                    <div className="relative w-full h-24 rounded-t overflow-hidden pointer-events-none">
+                      <Image src={url} alt={`Current image ${index + 1}`} fill sizes="(max-width: 768px) 50vw, 25vw" className="object-cover" draggable={false} />
+                    </div>
+                    {index === 0 && (
+                      <div className="absolute top-1 left-1 bg-blue-600 text-white text-[10px] font-semibold px-1.5 py-0.5 rounded">COVER</div>
+                    )}
+                    <div className="absolute top-1 right-1 bg-black/60 text-white text-[10px] font-medium w-5 h-5 flex items-center justify-center rounded-full">{index + 1}</div>
+                    <div className="flex items-center justify-between gap-1 px-1.5 py-1 border-t border-gray-100">
+                      <div className="flex gap-1">
+                        <button type="button" onClick={() => moveExistingImage(index, index - 1)} disabled={index === 0} className="text-gray-600 hover:text-blue-600 disabled:opacity-30 disabled:cursor-not-allowed text-sm leading-none px-1" aria-label="Move image left" title="Move earlier">←</button>
+                        <button type="button" onClick={() => moveExistingImage(index, index + 1)} disabled={index === existingImages.length - 1} className="text-gray-600 hover:text-blue-600 disabled:opacity-30 disabled:cursor-not-allowed text-sm leading-none px-1" aria-label="Move image right" title="Move later">→</button>
+                      </div>
+                      <button type="button" onClick={() => removeExistingImage(index)} className="text-red-600 hover:text-red-700 text-xs px-1" aria-label="Remove image" title="Remove image">Remove</button>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        )}
+
+        <div className="border-t pt-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">{isEditing ? 'Add More Images' : 'Vehicle Images'}</h3>
+          <div className="mb-4">
+            <UppyUploader onUploadComplete={handleUploadComplete} />
+          </div>
+
+          {uploadedFiles.length > 0 && (
+            <div className="mt-4">
+              <h4 className="text-sm font-medium text-gray-700 mb-2">Uploaded Images ({uploadedFiles.length}):</h4>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                {uploadedFiles.map((url, index) => (
+                  <div key={index} className="relative w-full h-20 rounded border overflow-hidden">
+                    <Image src={url} alt={`Upload ${index + 1}`} fill sizes="(max-width: 768px) 50vw, 25vw" className="object-cover" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div>
+          <label htmlFor="images" className="block text-sm font-medium text-gray-700 mb-2">Image URLs (comma-separated)</label>
+          <input {...register('images')} type="text" id="images" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg" />
+        </div>
+
+        <div className="flex justify-end gap-3 pt-6">
+          <button
+            type="button"
+            onClick={() => router.push('/admin/vehicles')}
+            className="px-6 py-3 rounded-lg font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className={`py-3 px-6 rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-white ${isEditing ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-blue-600 hover:bg-blue-700'}`}
+          >
+            {isSubmitting ? (isEditing ? 'Updating Vehicle...' : 'Adding Vehicle...') : (isEditing ? 'Update Vehicle' : 'Add Vehicle')}
+          </button>
+        </div>
+      </form>
+    </motion.div>
+  )
+}

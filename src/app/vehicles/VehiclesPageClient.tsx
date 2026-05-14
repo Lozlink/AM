@@ -19,6 +19,7 @@ export default function VehiclesPageClient({ cars }: VehiclesPageClientProps) {
   const [selectedMake, setSelectedMake] = useState('')
   const [priceRange, setPriceRange] = useState({ min: '', max: '' })
   const [sortBy, setSortBy] = useState('newest')
+  const [availability, setAvailability] = useState<'all' | 'in_stock' | 'under_offer'>('all')
 
   useEffect(() => {
     const channel = supabase
@@ -53,7 +54,10 @@ export default function VehiclesPageClient({ cars }: VehiclesPageClientProps) {
       filtered = filtered.filter(car => car.make === selectedMake)
     }
 
-
+    // Availability filter
+    if (availability !== 'all') {
+      filtered = filtered.filter(car => (car.status || 'in_stock') === availability)
+    }
 
     // Price range filter
     if (priceRange.min) {
@@ -96,13 +100,14 @@ export default function VehiclesPageClient({ cars }: VehiclesPageClientProps) {
     })
 
     setFilteredCars(filtered)
-  }, [cars, searchTerm, selectedMake, priceRange, sortBy])
+  }, [cars, searchTerm, selectedMake, priceRange, sortBy, availability])
 
   const clearFilters = () => {
     setSearchTerm('')
     setSelectedMake('')
     setPriceRange({ min: '', max: '' })
     setSortBy('newest')
+    setAvailability('all')
   }
 
   return (
@@ -150,7 +155,7 @@ export default function VehiclesPageClient({ cars }: VehiclesPageClientProps) {
               <select
                 value={selectedMake}
                 onChange={(e) => setSelectedMake(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focuborder-emerald-600 focus:border-emerald-600 text-gray-900 bg-white"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:border-emerald-600 text-gray-900 bg-white"
               >
                 <option value="">All Makes</option>
                 {makes.map(make => (
@@ -159,7 +164,21 @@ export default function VehiclesPageClient({ cars }: VehiclesPageClientProps) {
               </select>
             </div>
 
-
+            {/* Availability */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Availability
+              </label>
+              <select
+                value={availability}
+                onChange={(e) => setAvailability(e.target.value as 'all' | 'in_stock' | 'under_offer')}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:border-emerald-600 text-gray-900 bg-white"
+              >
+                <option value="all">All Vehicles</option>
+                <option value="in_stock">In Stock</option>
+                <option value="under_offer">Under Offer</option>
+              </select>
+            </div>
 
             {/* Sort */}
             <div>
@@ -216,7 +235,7 @@ export default function VehiclesPageClient({ cars }: VehiclesPageClientProps) {
                 Clear Filters
               </button>
             </div>
-          </div>as
+          </div>
         </div>
       </section>
 
@@ -227,7 +246,7 @@ export default function VehiclesPageClient({ cars }: VehiclesPageClientProps) {
             <>
               <div className="mb-8">
                 <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                  Available Vehicles ({filteredCars.length})
+                  Vehicles ({filteredCars.length})
                 </h2>
                 <p className="text-gray-600">
                   Found {filteredCars.length} vehicle{filteredCars.length !== 1 ? 's' : ''} matching your criteria
