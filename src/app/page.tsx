@@ -155,7 +155,7 @@ export default async function Home() {
         {/*        href="tel:0414225660"*/}
         {/*        className="inline-block bg-emerald-500 text-white px-8 py-4 rounded-lg text-lg font-bold hover:bg-emerald-600 transition-all duration-300 transform hover:scale-105 hover:shadow-xl"*/}
         {/*    >*/}
-        {/*      📞 Call 0414 225 660*/}
+        {/*      📞 Call 0419 995 901 */}
         {/*    </a>*/}
         {/*  </div>*/}
         {/*</section>*/}
@@ -248,7 +248,7 @@ export default async function Home() {
         {/*          href="tel:0414225660"*/}
         {/*          className="inline-block bg-emerald-500 text-white px-8 py-4 rounded-lg text-lg font-bold hover:bg-emerald-600 transition-all duration-300 transform hover:scale-105 hover:shadow-xl"*/}
         {/*      >*/}
-        {/*        📞 Call 0414 225 660*/}
+        {/*        📞 Call 0419 995 901 */}
         {/*      </a>*/}
         {/*    </div>*/}
         {/*  </div>*/}
